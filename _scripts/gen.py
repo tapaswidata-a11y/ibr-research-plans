@@ -320,11 +320,30 @@ footer b{{color:var(--ink2);font-weight:600}}
   .chart{{height:74px}}
 }}
 @media (prefers-reduced-motion:reduce){{*{{transition:none!important}}}}
+/* ---------- theme toggle (shared with the portal) ---------- */
+.themebar{{display:flex;justify-content:flex-end;padding:14px 0 0}}
+.theme-toggle{{display:flex;align-items:center;gap:2px;width:max-content;
+  background:var(--surface2);border:1px solid var(--rule);border-radius:20px;padding:3px}}
+.theme-btn{{border:0;background:none;color:var(--muted);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;font-weight:500;padding:4px 7px;border-radius:16px;cursor:pointer;
+  transition:color .15s,background .15s}}
+.theme-btn:hover{{color:var(--ink)}}
+.theme-btn.active{{background:var(--surface);color:var(--ink);font-weight:600}}
 </style>
 </head>
 <body>
 
+<script>try{{var _t=localStorage.getItem("ibr-portal-theme");
+if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}}catch(e){{}}</script>
+
 <div class="wrap">
+<div class="themebar">
+  <div class="theme-toggle" role="group" aria-label="Colour theme">
+    <button type="button" class="theme-btn" data-theme-val="light">☀️ Light</button>
+    <button type="button" class="theme-btn" data-theme-val="dark">🌙 Dark</button>
+    <button type="button" class="theme-btn active" data-theme-val="auto">💻 Auto</button>
+  </div>
+</div>
 <header class="top">
   <p class="eyebrow">Indo-Burma Ranges · Northeast India · 1934 – 2026</p>
   <h1>Sixty-four years of the Indo-Burma Ranges</h1>
@@ -535,6 +554,22 @@ footer b{{color:var(--ink2);font-weight:600}}
       apply();
     }});
   }});
+
+  // theme control, same storage key as the portal
+  var troot=document.documentElement, TKEY="ibr-portal-theme",
+      tbtns=Array.prototype.slice.call(document.querySelectorAll(".theme-btn"));
+  function setTheme(t){{
+    tbtns.forEach(function(b){{
+      var on=b.dataset.themeVal===t;
+      b.classList.toggle("active",on);
+      b.setAttribute("aria-pressed",on?"true":"false");
+    }});
+    if(t==="auto"){{troot.removeAttribute("data-theme");}}else{{troot.setAttribute("data-theme",t);}}
+    try{{ if(t==="auto"){{localStorage.removeItem(TKEY);}}else{{localStorage.setItem(TKEY,t);}} }}catch(e){{}}
+  }}
+  var tsaved=null; try{{tsaved=localStorage.getItem(TKEY);}}catch(e){{}}
+  setTheme(tsaved==="light"||tsaved==="dark"?tsaved:"auto");
+  tbtns.forEach(function(b){{b.addEventListener("click",function(){{setTheme(b.dataset.themeVal);}});}});
 }})();
 </script>
 </body>

@@ -1682,15 +1682,15 @@
 
     if (theme === 'auto') {
       root.removeAttribute('data-theme');
-      localStorage.removeItem('tec-plan-theme');
+      localStorage.removeItem('ibr-portal-theme');
     } else {
       root.setAttribute('data-theme', theme);
-      localStorage.setItem('tec-plan-theme', theme);
+      localStorage.setItem('ibr-portal-theme', theme);
     }
   }
 
   // Load saved theme if any
-  const savedTheme = localStorage.getItem('tec-plan-theme');
+  const savedTheme = localStorage.getItem('ibr-portal-theme');
   if (savedTheme === 'light' || savedTheme === 'dark') {
     setTheme(savedTheme);
   } else {

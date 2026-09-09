@@ -138,14 +138,29 @@ footer b{color:var(--ink2)}
   header.top{padding-top:24px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---------- theme toggle (shared with the portal) ---------- */
+.theme-toggle{display:flex;align-items:center;gap:2px;margin-top:16px;width:max-content;
+  background:var(--sunk);border:1px solid var(--rule);border-radius:20px;padding:3px}
+.theme-btn{border:0;background:none;color:var(--muted);font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;font-weight:500;padding:4px 7px;border-radius:16px;cursor:pointer;
+  transition:color .15s,background .15s}
+.theme-btn:hover{color:var(--ink)}
+.theme-btn.active{background:var(--surface);color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
+<script>try{var _t=localStorage.getItem("ibr-portal-theme");if(_t==="light"||_t==="dark")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
 
 <div class="page">
 
 <aside class="rail">
   <p class="brand">b-Significant<span>Rank 01 · work plan</span></p>
+  <div class="theme-toggle" role="group" aria-label="Colour theme">
+    <button type="button" class="theme-btn" data-theme-val="light">☀️ Light</button>
+    <button type="button" class="theme-btn" data-theme-val="dark">🌙 Dark</button>
+    <button type="button" class="theme-btn active" data-theme-val="auto">💻 Auto</button>
+  </div>
   <nav>
     <a href="#claim"><i>01</i>The claim under test</a>
     <a href="#why"><i>02</i>Why MLE can't answer</a>
@@ -585,5 +600,23 @@ footer b{color:var(--ink2)}
 </main>
 </div>
 
+<script>
+(function(){
+  var root=document.documentElement, KEY="ibr-portal-theme",
+      btns=Array.prototype.slice.call(document.querySelectorAll(".theme-btn"));
+  function set(t){
+    btns.forEach(function(b){
+      var on=b.dataset.themeVal===t;
+      b.classList.toggle("active",on);
+      b.setAttribute("aria-pressed",on?"true":"false");
+    });
+    if(t==="auto"){root.removeAttribute("data-theme");}else{root.setAttribute("data-theme",t);}
+    try{ if(t==="auto"){localStorage.removeItem(KEY);}else{localStorage.setItem(KEY,t);} }catch(e){}
+  }
+  var saved=null; try{saved=localStorage.getItem(KEY);}catch(e){}
+  set(saved==="light"||saved==="dark"?saved:"auto");
+  btns.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.themeVal);});});
+})();
+</script>
 </body>
 </html>
