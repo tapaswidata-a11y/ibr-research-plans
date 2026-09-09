@@ -56,6 +56,14 @@ a{color:var(--fibre)}
 .rail a:hover{color:var(--fibre)}
 .rail a i{font-family:"JetBrains Mono",monospace;font-style:normal;font-size:11px;
   color:var(--laser);font-variant-numeric:tabular-nums}
+.rail a.pin{margin-top:16px;border-top:1px solid var(--rule2);border-bottom:0;
+  padding-top:12px;color:var(--laser)}
+.rail a.pin:hover{color:var(--fibre)}
+.rail a.pin:hover i{color:var(--fibre)}
+.rail a.pin i{font-size:13px}
+.rail a.pin span{display:block}
+.rail a.pin em{display:block;font-style:normal;font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:3px}
 
 /* ---------- masthead ---------- */
 header.top{padding:44px 0 0;max-width:70ch}
@@ -151,6 +159,7 @@ footer b{color:var(--ink2)}
   .page{grid-template-columns:1fr;gap:0}
   .rail{position:static;padding:30px 0 0}
   .rail nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 18px}
+  .rail a.pin{grid-column:1/-1}
   header.top{padding-top:26px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -170,6 +179,7 @@ footer b{color:var(--ink2)}
     <a href="#data"><i>05</i>Trial data today</a>
     <a href="#ibr"><i>06</i>Fibre in the IBR</a>
     <a href="#month"><i>07</i>A first month</a>
+    <a class="pin" href="https://notebook.google.com/notebook/d3db12da-47fb-4d76-9d70-a7df36e0ae37" target="_blank" rel="noopener"><i>&#8599;</i><span>NotebookLM<em>your notebook</em></span></a>
   </nav>
 </aside>
 
