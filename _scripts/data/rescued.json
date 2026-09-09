@@ -1,0 +1,59 @@
+[
+ {
+  "citekey": "andf",
+  "cr_title": "A Petrographic Atlas of Ophiolite",
+  "journal": "",
+  "cr_year": 2014,
+  "cr_author": "Ghose",
+  "doi": "10.1007/978-81-322-1569-1",
+  "authors": [
+   "Ghose, Naresh Chandra",
+   "Chatterjee, Nilanjan",
+   "Fareeduddin"
+  ],
+  "card_title": "A Petrographic Atlas of Ophiolite",
+  "card_year": null,
+  "card_author": "10.1007_978-81-322-1569-1",
+  "file": "andf__10.1007_978-81-322-1569-1.pdf"
+ },
+ {
+  "citekey": "nath2014",
+  "cr_title": "Earthquake scenario in West Bengal with emphasis on seismic hazard microzonation of the city of Kolkata, India",
+  "journal": "Natural Hazards and Earth System Sciences",
+  "cr_year": 2014,
+  "cr_author": "Nath",
+  "doi": "10.5194/nhess-14-2549-2014",
+  "authors": [
+   "Nath, S. K.",
+   "Adhikari, M. D.",
+   "Maiti, S. K.",
+   "Devaraj, N.",
+   "Srivastava, N.",
+   "Mohapatra, L. D."
+  ],
+  "card_title": "Earthquake scenario in West Bengal with emphasis on seismic hazard mic",
+  "card_year": 2014,
+  "card_author": "Nath",
+  "file": "Nath_2014_Earthquake_scenario_in_West_Bengal_with_emphasis_on_seismic_hazard_mic.pdf"
+ },
+ {
+  "citekey": "earthquake2020",
+  "cr_title": "ObsPy: A Python Toolbox for Seismology",
+  "journal": "Seismological Research Letters",
+  "cr_year": 2010,
+  "cr_author": "Beyreuther",
+  "doi": "10.1785/gssrl.81.3.530",
+  "authors": [
+   "Beyreuther, M.",
+   "Barsch, R.",
+   "Krischer, L.",
+   "Megies, T.",
+   "Behr, Y.",
+   "Wassermann, J."
+  ],
+  "card_title": "Earthquake detection, location & relocation \u2014 pipeline reference",
+  "card_year": 2020,
+  "card_author": "MM_pipeline_reference_report",
+  "file": "earthquake2020__MM_pipeline_reference_report.pdf"
+ }
+]

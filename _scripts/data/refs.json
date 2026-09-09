@@ -1,0 +1,272 @@
+[
+ {
+  "gid": "dlpick",
+  "year": 2018,
+  "first": "Zhu",
+  "n": 2,
+  "journal": "Geophysical Journal International",
+  "doi": "10.1093/gji/ggy423",
+  "title": "PhaseNet: A Deep-Neural-Network-Based Seismic Arrival Time Picking Method"
+ },
+ {
+  "gid": "dlpick",
+  "year": 2020,
+  "first": "Mousavi",
+  "n": 5,
+  "journal": "Nature Communications",
+  "doi": "10.1038/s41467-020-17591-w",
+  "title": "Earthquake transformer\u2014an attentive deep-learning model for simultaneous earthquake detection and phase picking"
+ },
+ {
+  "gid": "dlpick",
+  "year": 2022,
+  "first": "Woollam",
+  "n": 13,
+  "journal": null,
+  "doi": "10.5194/egusphere-egu22-7363",
+  "title": "SeisBench - A Toolbox for Machine Learning in Seismology"
+ },
+ {
+  "gid": "dlpick",
+  "year": 2022,
+  "first": "Zhu",
+  "n": 5,
+  "journal": "Journal of Geophysical Research: Solid Earth",
+  "doi": "10.1029/2021jb023249",
+  "title": "Earthquake Phase Association Using a Bayesian Gaussian Mixture Model"
+ },
+ {
+  "gid": "dlpick",
+  "year": 2024,
+  "first": "M\u00fcnchmeyer",
+  "n": 1,
+  "journal": "Seismica",
+  "doi": "10.26443/seismica.v3i1.1130",
+  "title": "PyOcto: A high-throughput seismic phase associator"
+ },
+ {
+  "gid": "dlpick",
+  "year": 2024,
+  "first": "Yang",
+  "n": 9,
+  "journal": "Geophysical Research Letters",
+  "doi": "10.1029/2023gl105159",
+  "title": "New Insights Into Active Faults Revealed by a Deep\u2010Learning\u2010Based Earthquake Catalog in Central Myanmar"
+ },
+ {
+  "gid": "tmatch",
+  "year": 2017,
+  "first": "Gibbons",
+  "n": 2,
+  "journal": null,
+  "doi": "10.31223/osf.io/5z9ew",
+  "title": "The detection of low magnitude seismic events using array-based waveform correlation"
+ },
+ {
+  "gid": "tmatch",
+  "year": 2007,
+  "first": "Shelly",
+  "n": 3,
+  "journal": "Nature",
+  "doi": "10.1038/nature05666",
+  "title": "Non-volcanic tremor and low-frequency earthquake swarms"
+ },
+ {
+  "gid": "tmatch",
+  "year": 2019,
+  "first": "Ross",
+  "n": 4,
+  "journal": "Science",
+  "doi": "10.1126/science.aaw6888",
+  "title": "Searching for hidden earthquakes in Southern California"
+ },
+ {
+  "gid": "slowslip",
+  "year": 2003,
+  "first": "Rogers",
+  "n": 2,
+  "journal": "Science",
+  "doi": "10.1126/science.1084783",
+  "title": "Episodic Tremor and Slip on the Cascadia Subduction Zone: The Chatter of Silent Slip"
+ },
+ {
+  "gid": "slowslip",
+  "year": 2002,
+  "first": "Obara",
+  "n": 1,
+  "journal": "Science",
+  "doi": "10.1126/science.1070378",
+  "title": "Nonvolcanic Deep Tremor Associated with Subduction in Southwest Japan"
+ },
+ {
+  "gid": "slowslip",
+  "year": 2016,
+  "first": "Wallace",
+  "n": 8,
+  "journal": "Science",
+  "doi": "10.1126/science.aaf2349",
+  "title": "Slow slip near the trench at the Hikurangi subduction zone, New Zealand"
+ },
+ {
+  "gid": "dvv",
+  "year": 2008,
+  "first": "Brenguier",
+  "n": 6,
+  "journal": "Science",
+  "doi": "10.1126/science.1160943",
+  "title": "Postseismic Relaxation Along the San Andreas Fault at Parkfield from Continuous Seismological Observations"
+ },
+ {
+  "gid": "dvv",
+  "year": 2008,
+  "first": "Brenguier",
+  "n": 7,
+  "journal": "Nature Geoscience",
+  "doi": "10.1038/ngeo104",
+  "title": "Towards forecasting volcanic eruptions using seismic noise"
+ },
+ {
+  "gid": "dvv",
+  "year": 2017,
+  "first": "Lecocq",
+  "n": 5,
+  "journal": "Scientific Reports",
+  "doi": "10.1038/s41598-017-14468-9",
+  "title": "Monitoring ground water storage at mesoscale using seismic noise: 30 years of continuous observation and thermo-elastic and hydrological modeling"
+ },
+ {
+  "gid": "fwi",
+  "year": 2009,
+  "first": "Tape",
+  "n": 4,
+  "journal": "Science",
+  "doi": "10.1126/science.1175298",
+  "title": "Adjoint Tomography of the Southern California Crust"
+ },
+ {
+  "gid": "fwi",
+  "year": 2009,
+  "first": "Fichtner",
+  "n": 4,
+  "journal": "Geophysical Journal International",
+  "doi": "10.1111/j.1365-246x.2009.04368.x",
+  "title": "Full seismic waveform tomography for upper-mantle structure in the Australasian region using adjoint methods"
+ },
+ {
+  "gid": "das",
+  "year": 2019,
+  "first": "Ajo-Franklin",
+  "n": 11,
+  "journal": "Scientific Reports",
+  "doi": "10.1038/s41598-018-36675-8",
+  "title": "Distributed Acoustic Sensing Using Dark Fiber for Near-Surface Characterization and Broadband Seismic Event Detection"
+ },
+ {
+  "gid": "das",
+  "year": 2019,
+  "first": "Sladen",
+  "n": 7,
+  "journal": null,
+  "doi": "10.31223/osf.io/ekrfy",
+  "title": "Distributed sensing of earthquakes and ocean-solid Earth interactions on seafloor telecom cables"
+ },
+ {
+  "gid": "das",
+  "year": 2019,
+  "first": "Williams",
+  "n": 7,
+  "journal": "Nature Communications",
+  "doi": "10.1038/s41467-019-13262-7",
+  "title": "Distributed sensing of microseisms and teleseisms with submarine dark fibers"
+ },
+ {
+  "gid": "obs",
+  "year": 2007,
+  "first": "Cummins",
+  "n": 1,
+  "journal": "Nature",
+  "doi": "10.1038/nature06088",
+  "title": "The potential for giant tsunamigenic earthquakes in the northern Bay of Bengal"
+ },
+ {
+  "gid": "obs",
+  "year": 2016,
+  "first": "Wallace",
+  "n": 8,
+  "journal": "Science",
+  "doi": "10.1126/science.aaf2349",
+  "title": "Slow slip near the trench at the Hikurangi subduction zone, New Zealand"
+ },
+ {
+  "gid": "nodal",
+  "year": 2011,
+  "first": "Ritzwoller",
+  "n": 3,
+  "journal": "Comptes Rendus. G\u00e9oscience",
+  "doi": "10.1016/j.crte.2011.03.007",
+  "title": "Ambient noise tomography with a large seismic array"
+ },
+ {
+  "gid": "denoise",
+  "year": 2026,
+  "first": "Zhang",
+  "n": 5,
+  "journal": "Sixth International Conference on Digital Signal and Computer Communications (DSCC 2026)",
+  "doi": "10.1117/12.3118248",
+  "title": "Method of seismic signal denoising and decomposition based on DeepDenoiser deep neural network"
+ },
+ {
+  "gid": "gnn",
+  "year": 2023,
+  "first": "McBrearty",
+  "n": 2,
+  "journal": "Bulletin of the Seismological Society of America",
+  "doi": "10.1785/0120220182",
+  "title": "Earthquake Phase Association with Graph Neural Networks"
+ },
+ {
+  "gid": "cyber",
+  "year": 2010,
+  "first": "Graves",
+  "n": 13,
+  "journal": "Pure and Applied Geophysics",
+  "doi": "10.1007/s00024-010-0161-6",
+  "title": "CyberShake: A Physics-Based Seismic Hazard Model for Southern California"
+ },
+ {
+  "gid": "oef",
+  "year": 2014,
+  "first": "Marzocchi",
+  "n": 3,
+  "journal": "Seismological Research Letters",
+  "doi": "10.1785/0220130219",
+  "title": "The Establishment of an Operational Earthquake Forecasting System in Italy"
+ },
+ {
+  "gid": "paleo",
+  "year": 2001,
+  "first": "Bilham",
+  "n": 2,
+  "journal": "Nature",
+  "doi": "10.1038/35071057",
+  "title": "Plateau \u2018pop-up\u2019 in the great 1897 Assam earthquake"
+ },
+ {
+  "gid": "paleo",
+  "year": 1999,
+  "first": "Sukhija",
+  "n": 7,
+  "journal": "Earth and Planetary Science Letters",
+  "doi": "10.1016/s0012-821x(99)00015-1",
+  "title": "Paleoliquefaction evidence and periodicity of large prehistoric earthquakes in Shillong Plateau, India"
+ },
+ {
+  "gid": "risk",
+  "year": 2014,
+  "first": "Nath",
+  "n": 4,
+  "journal": null,
+  "doi": "10.5194/nhessd-2-3015-2014",
+  "title": "Seismic vulnerability and risk assessment of Kolkata City, India"
+ }
+]

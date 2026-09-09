@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Fibre Seismology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EFF3F4; --surface:#FFFFFF; --sunk:#E4EBED;
+  --ink:#10222A; --ink2:#3B525C; --muted:#6E838C; --rule:#D3DEE1; --rule2:#BECDD2;
+  --fibre:#0B6C79; --fibre-soft:#DCEDEF;
+  --laser:#B65D0A; --laser-soft:#F7E7D5;
+  --warn:#9A3B2B; --warn-soft:#F6E3DF;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1418; --surface:#111F25; --sunk:#0D191E;
+    --ink:#E4EDEF; --ink2:#B4C6CB; --muted:#7F969E; --rule:#213238; --rule2:#2E444C;
+    --fibre:#4FBECB; --fibre-soft:#123136;
+    --laser:#E2A15A; --laser-soft:#2E2317;
+    --warn:#E08A76; --warn-soft:#301C18;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1418; --surface:#111F25; --sunk:#0D191E;
+  --ink:#E4EDEF; --ink2:#B4C6CB; --muted:#7F969E; --rule:#213238; --rule2:#2E444C;
+  --fibre:#4FBECB; --fibre-soft:#123136;
+  --laser:#E2A15A; --laser-soft:#2E2317;
+  --warn:#E08A76; --warn-soft:#301C18;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;font-size:16.5px;line-height:1.62;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--fibre)}
+:focus-visible{outline:2px solid var(--laser);outline-offset:3px;border-radius:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.page{max-width:1180px;margin:0 auto;padding:0 26px 90px;
+  display:grid;grid-template-columns:206px minmax(0,1fr);gap:0 46px;align-items:start}
+
+/* ---------- rail ---------- */
+.rail{position:sticky;top:0;padding:38px 0 30px;align-self:start}
+.brand{font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:15px;
+  letter-spacing:-.01em;line-height:1.25;margin:0 0 4px;color:var(--ink)}
+.brand span{display:block;font-weight:400;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-top:7px}
+.rail nav{margin-top:26px;border-top:1px solid var(--rule);padding-top:6px;
+  display:flex;flex-direction:column}
+.rail a{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:baseline;
+  padding:9px 0;text-decoration:none;border-bottom:1px solid var(--rule);
+  font-family:Archivo,system-ui,sans-serif;font-size:13px;line-height:1.3;color:var(--ink2)}
+.rail a:hover{color:var(--fibre)}
+.rail a i{font-family:"JetBrains Mono",monospace;font-style:normal;font-size:11px;
+  color:var(--laser);font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+header.top{padding:44px 0 0;max-width:70ch}
+.kicker{font-family:"JetBrains Mono",monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--laser);margin:0 0 16px}
+h1{font-family:Archivo,system-ui,sans-serif;font-weight:700;letter-spacing:-.025em;
+  font-size:clamp(34px,5.2vw,54px);line-height:1.02;margin:0 0 18px;text-wrap:balance;color:var(--ink)}
+.stand{font-size:19px;line-height:1.55;color:var(--ink2);margin:0;max-width:62ch}
+.stand em{color:var(--ink);font-style:italic}
+
+/* ---------- spec strip ---------- */
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:34px 0 0}
+.spec{background:var(--surface);padding:14px 15px 13px}
+.spec b{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:19px;
+  color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2}
+.spec span{display:block;font-family:Archivo,system-ui,sans-serif;font-size:11px;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:6px;line-height:1.35}
+
+/* ---------- sections ---------- */
+section{margin:58px 0 0;max-width:70ch;scroll-margin-top:24px}
+h2{font-family:Archivo,system-ui,sans-serif;font-weight:600;letter-spacing:-.015em;
+  font-size:27px;line-height:1.15;margin:0 0 4px;color:var(--ink);text-wrap:balance;
+  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+h2 i{font-family:"JetBrains Mono",monospace;font-style:normal;font-weight:400;font-size:14px;
+  color:var(--laser);font-variant-numeric:tabular-nums}
+.dek{font-family:Archivo,system-ui,sans-serif;font-size:13.5px;color:var(--muted);
+  margin:0 0 22px 38px;line-height:1.45}
+section p{margin:0 0 15px}
+h3{font-family:Archivo,system-ui,sans-serif;font-weight:600;font-size:15.5px;
+  letter-spacing:.005em;margin:28px 0 9px;color:var(--ink)}
+strong{font-weight:600;color:var(--ink)}
+code,.u{font-family:"JetBrains Mono",monospace;font-size:.86em;
+  background:var(--sunk);padding:1px 5px;border-radius:3px;color:var(--ink2)}
+.u{background:none;padding:0;color:var(--fibre)}
+ul{margin:0 0 15px;padding-left:20px}
+li{margin:0 0 7px}
+
+/* ---------- figures ---------- */
+figure{margin:26px 0 24px;grid-column:1/-1}
+figure svg{display:block;width:100%;max-width:100%;height:auto;
+  background:var(--surface);border:1px solid var(--rule);color:var(--ink2)}
+figcaption{font-family:Archivo,system-ui,sans-serif;font-size:12.5px;line-height:1.5;
+  color:var(--muted);margin-top:10px;max-width:66ch}
+
+/* ---------- resource rows ---------- */
+.res{display:flex;flex-direction:column;gap:0;margin:14px 0 22px;
+  border-top:1px solid var(--rule2)}
+.res a{display:block;text-decoration:none;padding:13px 0 12px;border-bottom:1px solid var(--rule);
+  color:inherit}
+.res a:hover{background:var(--sunk)}
+.res .t{font-family:Archivo,system-ui,sans-serif;font-weight:600;font-size:14.5px;
+  line-height:1.35;color:var(--fibre);display:block}
+.res .m{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);
+  display:block;margin-top:4px;letter-spacing:.01em}
+.res .w{display:block;font-size:14.5px;line-height:1.5;color:var(--ink2);margin-top:6px;max-width:62ch}
+.tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 6px;border-radius:2px;white-space:nowrap;
+  background:var(--fibre-soft);color:var(--fibre);margin-left:7px;vertical-align:1px}
+.tag.have{background:var(--laser-soft);color:var(--laser)}
+
+/* ---------- callouts ---------- */
+.note{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--fibre);
+  padding:16px 19px;margin:22px 0}
+.note.warn{border-left-color:var(--warn)}
+.note h4{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--fibre);margin:0 0 9px}
+.note.warn h4{color:var(--warn)}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:18px 0 22px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-family:Archivo,system-ui,sans-serif;font-size:13.5px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:600;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);background:var(--sunk);white-space:nowrap}
+td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+
+/* ---------- plan ---------- */
+ol.plan{counter-reset:s;list-style:none;margin:16px 0 0;padding:0}
+ol.plan li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:12px;
+  padding:12px 0;border-bottom:1px solid var(--rule);margin:0}
+ol.plan li::before{content:counter(s,decimal-leading-zero);font-family:"JetBrains Mono",monospace;
+  font-size:12px;color:var(--laser);padding-top:3px}
+
+footer{max-width:70ch;margin:64px 0 0;padding-top:22px;border-top:2px solid var(--ink);
+  font-size:14px;color:var(--muted)}
+footer p{margin:0 0 11px}
+footer b{color:var(--ink2)}
+
+@media (max-width:860px){
+  .page{grid-template-columns:1fr;gap:0}
+  .rail{position:static;padding:30px 0 0}
+  .rail nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 18px}
+  header.top{padding-top:26px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="page">
+
+<aside class="rail">
+  <p class="brand">Dark Fibre Seismology<span>Field guide</span></p>
+  <nav>
+    <a href="#physics"><i>01</i>What DAS measures</a>
+    <a href="#reading"><i>02</i>Reading the data</a>
+    <a href="#software"><i>03</i>Software &amp; formats</a>
+    <a href="#papers"><i>04</i>The literature</a>
+    <a href="#data"><i>05</i>Trial data today</a>
+    <a href="#ibr"><i>06</i>Fibre in the IBR</a>
+    <a href="#month"><i>07</i>A first month</a>
+  </nav>
+</aside>
+
+<main>
+
+<header class="top">
+  <p class="kicker">Distributed acoustic sensing · a route in</p>
+  <h1>A telecom cable is already a seismic array</h1>
+  <p class="stand">DAS pings an ordinary optical fibre with laser pulses and reads the phase of the
+  light that scatters back, turning <em>every few metres of glass</em> into a strain sensor. One
+  interrogator on one dark strand gives you thousands of channels along tens of kilometres — no
+  vaults, no permits per site, no batteries in the field. This is the path from the physics to
+  data you can download this afternoon, and then to fibre in Northeast India.</p>
+</header>
+
+<div class="specs">
+  <div class="spec"><b>1–2 m</b><span>Channel spacing</span></div>
+  <div class="spec"><b>4–10 m</b><span>Gauge length</span></div>
+  <div class="spec"><b>~50 km</b><span>Reach per interrogator</span></div>
+  <div class="spec"><b>≤ 2 kHz</b><span>Sample rate, round-trip limited</span></div>
+  <div class="spec"><b>~3.5 TB</b><span>Per day, 10 km of fibre</span></div>
+</div>
+
+<section id="physics">
+  <h2><i>01</i>What DAS actually measures</h2>
+  <p class="dek">Phase-sensitive OTDR — and why a DAS channel is not a geophone</p>
+
+  <p>An interrogator fires a coherent laser pulse into one end of the fibre. Glass is never
+  perfectly uniform, so a faint fraction of the light <strong>Rayleigh-backscatters</strong> from
+  frozen-in density fluctuations all along the cable and returns to the same end. Time-of-flight
+  converts return time into distance: light travels at roughly <span class="u">2×10⁸ m/s</span> in
+  fibre, so a return arriving 100 µs later came from 10 km down the cable.</p>
+
+  <p>When the ground strains a section of fibre, that section stretches, and the optical path
+  length between two scattering points changes. The instrument measures the <strong>phase
+  difference</strong> between the returns from two points separated by the <strong>gauge
+  length</strong> <span class="u">L</span>. Divide that change by <span class="u">L</span> and you
+  have the average <strong>axial strain</strong> — or, differentiated, strain rate — over that
+  segment.</p>
+
+  <figure>
+    <svg viewBox="0 0 760 288" role="img" aria-label="A laser pulse travels down a fibre, Rayleigh backscatter returns to the interrogator, and the phase difference between returns from two points one gauge length apart gives the axial strain over that segment.">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="currentColor"/>
+        </marker>
+        <marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="#D5872B"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="96" width="104" height="76" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <text x="72" y="126" text-anchor="middle" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="currentColor">Interrogator</text>
+      <text x="72" y="145" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">laser + ADC</text>
+
+      <line x1="124" y1="134" x2="736" y2="134" stroke="currentColor" stroke-width="2.5"/>
+      <text x="700" y="120" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">…to ~50 km</text>
+
+      <g stroke="currentColor" stroke-width="1" opacity=".45">
+        <line x1="160" y1="128" x2="160" y2="140"/><line x1="184" y1="128" x2="184" y2="140"/>
+        <line x1="208" y1="128" x2="208" y2="140"/><line x1="232" y1="128" x2="232" y2="140"/>
+        <line x1="256" y1="128" x2="256" y2="140"/><line x1="280" y1="128" x2="280" y2="140"/>
+        <line x1="304" y1="128" x2="304" y2="140"/><line x1="328" y1="128" x2="328" y2="140"/>
+        <line x1="352" y1="128" x2="352" y2="140"/><line x1="376" y1="128" x2="376" y2="140"/>
+        <line x1="400" y1="128" x2="400" y2="140"/><line x1="424" y1="128" x2="424" y2="140"/>
+        <line x1="448" y1="128" x2="448" y2="140"/><line x1="472" y1="128" x2="472" y2="140"/>
+        <line x1="640" y1="128" x2="640" y2="140"/><line x1="664" y1="128" x2="664" y2="140"/>
+        <line x1="688" y1="128" x2="688" y2="140"/><line x1="712" y1="128" x2="712" y2="140"/>
+      </g>
+      <text x="160" y="172" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">one channel every 1–2 m</text>
+
+      <rect x="300" y="126" width="26" height="16" fill="#D5872B"/>
+      <line x1="336" y1="106" x2="392" y2="106" stroke="#D5872B" stroke-width="1.6" marker-end="url(#ahl)"/>
+      <text x="336" y="98" font-family="JetBrains Mono, monospace" font-size="11" fill="#D5872B">pulse out</text>
+
+      <path d="M 500 128 C 460 88 420 88 380 108" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+      <path d="M 596 128 C 552 76 470 72 400 92" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#ah)"/>
+      <text x="470" y="62" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">Rayleigh backscatter returns</text>
+
+      <circle cx="500" cy="134" r="4.5" fill="#2E9AA8"/>
+      <circle cx="596" cy="134" r="4.5" fill="#2E9AA8"/>
+      <line x1="500" y1="196" x2="596" y2="196" stroke="#2E9AA8" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)" color="#2E9AA8"/>
+      <line x1="500" y1="140" x2="500" y2="196" stroke="#2E9AA8" stroke-width="1" opacity=".55"/>
+      <line x1="596" y1="140" x2="596" y2="196" stroke="#2E9AA8" stroke-width="1" opacity=".55"/>
+      <text x="548" y="216" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#2E9AA8">gauge length L ≈ 10 m</text>
+
+      <text x="548" y="248" text-anchor="middle" font-family="Archivo, sans-serif" font-size="13" fill="currentColor">Δφ between the two returns</text>
+      <text x="548" y="268" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" fill="currentColor">ε ≈ Δφ · λ / (4π n L)  — axial strain over L</text>
+    </svg>
+    <figcaption>The measurement is a <em>difference</em> taken over a finite length of glass, not a
+    point reading. Gauge length therefore acts as a moving average along the cable: it sets your
+    spatial resolution and quietly suppresses wavelengths shorter than L. Channel spacing and gauge
+    length are set independently, so adjacent channels overlap and are not statistically independent.</figcaption>
+  </figure>
+
+  <h3>Four consequences you have to design around</h3>
+  <ul>
+    <li><strong>It is strain, not ground velocity.</strong> For a plane wave, strain relates to
+    particle velocity through the <em>apparent</em> phase velocity along the cable:
+    <span class="u">ε = −v / c<sub>app</sub></span>. Converting DAS to velocity means assuming or
+    solving for c<sub>app</sub> — a step with no equivalent in seismometer processing.</li>
+    <li><strong>It is single-component.</strong> A channel senses strain along the fibre axis only.
+    There is no vertical, no transverse, no three-component polarisation analysis.</li>
+    <li><strong>Coupling is the whole ball game.</strong> Cable cemented or directly buried in soil
+    couples well; cable loose in a conduit slides and under-reads; aerial cable on transmission
+    towers is largely decoupled from the ground.</li>
+    <li><strong>Some channels are simply dead.</strong> Rayleigh backscatter amplitude varies
+    randomly along the fibre, so a fraction of channels fade into noise — and which ones can change
+    over hours. Channel QC is a permanent part of the pipeline, not a setup step.</li>
+  </ul>
+
+  <div class="note">
+    <h4>Where the sample rate comes from</h4>
+    <p>You cannot fire the next pulse until the last one has returned, or the returns overlap. That
+    round trip caps the sample rate: <span class="u">f<sub>max</sub> = c<sub>fibre</sub> / 2L<sub>total</sub></span>.
+    For 50 km of fibre, f<sub>max</sub> ≈ 2 kHz. Interrogating a longer cable literally costs you
+    bandwidth — a real trade for regional versus local monitoring.</p>
+  </div>
+</section>
+
+<section id="reading">
+  <h2><i>02</i>Reading the data</h2>
+  <p class="dek">Waterfalls, directional nulls, and the artefacts that fool everyone once</p>
+
+  <p>DAS data is a 2-D matrix — channel against time — and it is normally looked at as a
+  <strong>waterfall</strong> plot, where a wave sweeping down the cable becomes a sloped stripe
+  whose gradient is its apparent velocity. Moveout you would have inferred from a handful of
+  stations is simply visible.</p>
+
+  <p>The catch is directionality. A straight cable is blind in specific directions, and the
+  blindness is severe rather than a mild taper.</p>
+
+  <figure>
+    <svg viewBox="0 0 760 250" role="img" aria-label="A straight fibre responds fully to waves travelling along it (endfire) and is blind to P waves arriving perpendicular to it (broadside), following a cosine-squared sensitivity.">
+      <defs>
+        <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="currentColor"/>
+        </marker>
+        <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="#2E9AA8"/>
+        </marker>
+        <marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="#C9584A"/>
+        </marker>
+      </defs>
+
+      <line x1="40" y1="128" x2="430" y2="128" stroke="currentColor" stroke-width="3"/>
+      <text x="40" y="150" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">fibre axis</text>
+
+      <line x1="70" y1="94" x2="170" y2="94" stroke="#2E9AA8" stroke-width="2" marker-end="url(#ah3)"/>
+      <text x="70" y="82" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="#2E9AA8">endfire</text>
+      <text x="182" y="98" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#2E9AA8">θ = 0°, cos²θ = 1 — full response</text>
+
+      <line x1="330" y1="46" x2="330" y2="118" stroke="#C9584A" stroke-width="2" marker-end="url(#ah4)"/>
+      <text x="342" y="58" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="#C9584A">broadside</text>
+      <text x="342" y="76" font-family="JetBrains Mono, monospace" font-size="11.5" fill="#C9584A">θ = 90°, cos²θ = 0 — P is invisible</text>
+
+      <path d="M 236 128 A 44 44 0 0 0 264 87" fill="none" stroke="currentColor" stroke-width="1" opacity=".6"/>
+      <line x1="236" y1="128" x2="286" y2="70" stroke="currentColor" stroke-width="1.6" marker-end="url(#ah2)"/>
+      <text x="268" y="120" font-family="JetBrains Mono, monospace" font-size="12" fill="currentColor">θ</text>
+
+      <g transform="translate(560,128)">
+        <line x1="-150" y1="0" x2="150" y2="0" stroke="currentColor" stroke-width="1" opacity=".4"/>
+        <line x1="0" y1="-74" x2="0" y2="74" stroke="currentColor" stroke-width="1" opacity=".4"/>
+        <path d="M 0 0 C 60 -34 120 -22 138 0 C 120 22 60 34 0 0" fill="#2E9AA8" opacity=".22"/>
+        <path d="M 0 0 C -60 -34 -120 -22 -138 0 C -120 22 -60 34 0 0" fill="#2E9AA8" opacity=".22"/>
+        <path d="M 0 0 C 60 -34 120 -22 138 0 C 120 22 60 34 0 0" fill="none" stroke="#2E9AA8" stroke-width="1.6"/>
+        <path d="M 0 0 C -60 -34 -120 -22 -138 0 C -120 22 -60 34 0 0" fill="none" stroke="#2E9AA8" stroke-width="1.6"/>
+        <text x="0" y="-88" text-anchor="middle" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="currentColor">cos²θ sensitivity</text>
+        <text x="0" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="currentColor">lobes along the cable, nulls across it</text>
+      </g>
+    </svg>
+    <figcaption>A straight cable is an antenna with nulls. A P wave arriving broadside produces
+    almost no axial strain and is effectively not recorded — which is why real deployments prize
+    cables that bend, and why two cables crossing at a high angle recover azimuth that neither can
+    resolve alone. Route geometry is a scientific decision, not a logistical one.</figcaption>
+  </figure>
+
+  <h3>The artefacts everyone meets</h3>
+  <ul>
+    <li><strong>You do not know where your channels are.</strong> Cable length ≠ ground distance:
+    slack coils sit in every splice enclosure. Channels are mapped to positions by a
+    <strong>tap test</strong> — striking the ground at surveyed points and finding which channel
+    lights up. Budget a day for it.</li>
+    <li><strong>Common-mode laser noise</strong> appears across all channels at once. It looks like
+    a horizontal stripe on the waterfall and removes cleanly with a median or common-mode subtraction.</li>
+    <li><strong>Everything anthropogenic is recorded.</strong> Traffic, trains, pumps, footsteps.
+    On a rail corridor this cuts both ways: trains are a repeatable, high-SNR source that is
+    excellent for ambient-noise imaging and site response, and a nuisance for earthquake detection.</li>
+    <li><strong>Optical fading</strong> gives channel-to-channel amplitude that is random, not
+    geological. Never interpret a single channel's amplitude as a site effect without checking
+    its neighbours.</li>
+  </ul>
+</section>
+
+<section id="software">
+  <h2><i>03</i>Software and formats</h2>
+  <p class="dek">Do not write your own reader — the ecosystem exists now</p>
+
+  <p>DAS spent a decade in a format swamp: every vendor wrote its own HDF5 layout and SEG-Y
+  variant. Two things fixed it — an FDSN metadata standard, and a Python ecosystem modelled
+  explicitly on Astropy's federation idea.</p>
+
+  <div class="res">
+    <a href="https://dascore.org" target="_blank" rel="noopener">
+      <span class="t">DASCore<span class="tag">start here</span></span>
+      <span class="m">DASDAE · Python · dascore.org · github.com/DASDAE/dascore</span>
+      <span class="w">Reads the vendor formats, gives you an object-oriented <code>Patch</code>/<code>Spool</code>
+      interface for filtering, decimation and visualisation, and scales to archives rather than single
+      files. This is the foundation library of the wider DASDAE ecosystem.</span>
+    </a>
+    <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11440623/" target="_blank" rel="noopener">
+      <span class="t">DASCore: a Python Library for Distributed Fiber Optic Sensing</span>
+      <span class="m">Open-access paper · 2024</span>
+      <span class="w">The design rationale, and the clearest short description of what a DAS processing
+      pipeline needs to handle that a seismometer pipeline does not.</span>
+    </a>
+    <a href="https://github.com/DASDAE/das-anomaly" target="_blank" rel="noopener">
+      <span class="t">das-anomaly</span>
+      <span class="m">DASDAE · autoencoder anomaly detection</span>
+      <span class="w">Unsupervised event flagging in DAS archives. Useful when you have terabytes and no
+      catalogue to train against — which is exactly the position you would be in on day one in Assam.</span>
+    </a>
+    <a href="https://docs.fdsn.org/projects/das-metadata/en/draft/" target="_blank" rel="noopener">
+      <span class="t">FDSN DAS metadata standard</span>
+      <span class="m">docs.fdsn.org · draft standard</span>
+      <span class="w">SEED cannot describe a DAS deployment — there is no channel inventory for
+      100,000 channels, no field for gauge length, pulse rate or cable environment. Record metadata in
+      this schema from the first day of acquisition; retrofitting it is miserable.</span>
+    </a>
+    <a href="https://github.com/DAS-RCN" target="_blank" rel="noopener">
+      <span class="t">DAS-RCN code repositories</span>
+      <span class="m">GitHub organisation · NSF Research Coordination Network</span>
+      <span class="w">Community notebooks: reading and visualising DAS, vertical-array processing, and
+      machine learning on DAS. Written as teaching material, which is what you want first.</span>
+    </a>
+  </div>
+</section>
+
+<section id="papers">
+  <h2><i>04</i>The literature, in reading order</h2>
+  <p class="dek">Three reviews, then the papers that made the case for dark fibre</p>
+
+  <p>Read the 2021 review first — it is the one that will make the rest legible — then the
+  decade-scale survey for where the field went, then the three dark-fibre demonstrations.
+  <strong>You already hold those three as PDFs.</strong></p>
+
+  <div class="res">
+    <a href="https://www.annualreviews.org/doi/10.1146/annurev-earth-072420-065213" target="_blank" rel="noopener">
+      <span class="t">Fiber-Optic Seismology — Lindsey &amp; Martin<span class="tag">read first</span></span>
+      <span class="m">Annu. Rev. Earth Planet. Sci. 49, 309–336 · 2021</span>
+      <span class="w">The canonical review: instrumentation, response, gauge length, and honest limits.
+      If you read one thing before touching data, read this.</span>
+    </a>
+    <a href="https://link.springer.com/article/10.1007/s10712-024-09840-0" target="_blank" rel="noopener">
+      <span class="t">Photonic Seismology: A New Decade of DAS in Geophysics, 2012–2023</span>
+      <span class="m">Surveys in Geophysics · 2024</span>
+      <span class="w">The decade in one place — what has been tried, what worked, and which
+      applications are now routine rather than experimental.</span>
+    </a>
+    <a href="https://link.springer.com/article/10.1007/s11069-025-07370-5" target="_blank" rel="noopener">
+      <span class="t">A review of seismic detection using fibre-optic DAS: from telecommunication cables to earthquake sensors</span>
+      <span class="m">Natural Hazards · 2025</span>
+      <span class="w">The most recent survey, and the one framed around exactly your question: using
+      existing telecom infrastructure for earthquake monitoring.</span>
+    </a>
+    <a href="https://www.nature.com/articles/s41598-018-36675-8" target="_blank" rel="noopener">
+      <span class="t">DAS using dark fibre for near-surface characterisation and broadband seismic event detection — Ajo-Franklin et al.<span class="tag have">on your disk</span></span>
+      <span class="m">Scientific Reports · 2019 · AjoFranklin_2019_…Dark_Fiber…pdf</span>
+      <span class="w">The proof that unused telecom fibre records both near-surface structure and
+      teleseisms. The template for what a Guwahati or Silchar pilot would claim.</span>
+    </a>
+    <a href="https://www.nature.com/articles/s41467-019-13793-z" target="_blank" rel="noopener">
+      <span class="t">Distributed sensing of earthquakes and ocean–solid Earth interactions — Sladen et al.<span class="tag have">on your disk</span></span>
+      <span class="m">Nature Communications · 2019 · Sladen_2019_….pdf</span>
+      <span class="w">Submarine dark fibre off Toulon. Read this one alongside gap 17 — it is the
+      cheapest existing analogue for instrumenting the Bengal margin.</span>
+    </a>
+    <a href="https://www.nature.com/articles/s41467-019-13262-7" target="_blank" rel="noopener">
+      <span class="t">Distributed sensing of microseisms and teleseisms with submarine dark fibre — Williams et al.<span class="tag have">on your disk</span></span>
+      <span class="m">Nature Communications · 2019 · Williams_2019_….pdf</span>
+      <span class="w">Companion to Sladen: what an offshore cable delivers in the microseism band, which
+      is the band that matters for ambient-noise imaging of a margin.</span>
+    </a>
+    <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2017GL075722" target="_blank" rel="noopener">
+      <span class="t">Fibre-optic network observations of earthquake wavefields — Lindsey et al.</span>
+      <span class="m">Geophysical Research Letters · 2017</span>
+      <span class="w">The early demonstration on a metropolitan network. Useful for how a dense strain
+      wavefield is actually interpreted, rather than just detected.</span>
+    </a>
+    <a href="https://academic.oup.com/gji/article/236/2/1026/7453669" target="_blank" rel="noopener">
+      <span class="t">DAS-N2N: machine-learning DAS signal denoising without clean data</span>
+      <span class="m">Geophysical Journal International · 2024</span>
+      <span class="w">Noise2Noise adapted to DAS — trains on the data itself, no clean reference
+      required. Directly reusable for gap 06 on your own broadband archive.</span>
+    </a>
+    <a href="https://academic.oup.com/gji/article/245/2/ggag061/8468857" target="_blank" rel="noopener">
+      <span class="t">DeepSubDAS: an earthquake phase picker from submarine DAS data</span>
+      <span class="m">Geophysical Journal International · 2025</span>
+      <span class="w">Picking on strain is a different problem from picking on velocity — models
+      trained on seismometers transfer poorly. This is the current state of the retraining question.</span>
+    </a>
+  </div>
+
+  <div class="note">
+    <h4>One more worth chasing</h4>
+    <p>Zhan's short piece <em>"Distributed Acoustic Sensing Turns Fiber-Optic Cables into Sensitive
+    Seismic Antennas"</em> (<em>Seismological Research Letters</em>, 2020) is the best five-page
+    orientation in print. I have not verified a stable link for it, so look it up by title rather
+    than trusting a DOI from me.</p>
+  </div>
+</section>
+
+<section id="data">
+  <h2><i>05</i>Trial data you can have today</h2>
+  <p class="dek">Enough open DAS exists to build and validate the whole pipeline before you own a metre of fibre</p>
+
+  <p>This is the part that changes your timeline. The method development for a DAS project in the
+  Indo-Burma Ranges does not depend on Indian fibre at all — only the final acquisition does. Start
+  on public data now, and arrive at the operator conversation with a working pipeline and a
+  publication.</p>
+
+  <div class="res">
+    <a href="https://par.nsf.gov/biblio/10437086-pubdas-public-distributed-acoustic-sensing-datasets-repository-geosciences" target="_blank" rel="noopener">
+      <span class="t">PubDAS — the public DAS repository<span class="tag">largest</span></span>
+      <span class="m">Spica et al., Seismological Research Letters 94(2A), 983 · 2023 · ~90 TB</span>
+      <span class="w">Eight datasets across urban dark fibre, underground mines and the seafloor,
+      spanning days to years, continuous and triggered. The paper documents the metadata and the
+      access route for each dataset — read it as the catalogue, then pull only the subset you need.</span>
+    </a>
+    <a href="https://registry.opendata.aws/southern-california-earthquakes/" target="_blank" rel="noopener">
+      <span class="t">Ridgecrest DAS via SCEDC on AWS Open Data<span class="tag">no account needed</span></span>
+      <span class="m">AWS S3 · Ridgecrest_DAS folder · public bucket</span>
+      <span class="w">Aftershock-rich DAS from the 2019 Ridgecrest sequence, alongside the conventional
+      catalogue for the same events — so you can check a DAS pick against a network pick. Anonymous S3
+      access, no AWS account required.</span>
+    </a>
+    <a href="https://scedc.caltech.edu/data/getstarted-pds.html" target="_blank" rel="noopener">
+      <span class="t">SCEDC public-dataset guide and DAS notebook</span>
+      <span class="m">Caltech SCEDC · Jupyter tutorial</span>
+      <span class="w">The getting-started page for that bucket, including a worked notebook for the
+      Ridgecrest DAS data. The fastest path from zero to a waterfall plot on your screen.</span>
+    </a>
+    <a href="https://gdr.openei.org/submissions/980" target="_blank" rel="noopener">
+      <span class="t">PoroTomo — horizontal and vertical DAS, Brady geothermal field</span>
+      <span class="m">Geothermal Data Repository · SEG-Y and HDF5 · tutorial notebooks</span>
+      <span class="w">The best-documented active-source DAS experiment, with a vertical array in a
+      borehole as well as a surface grid. Use it to learn geometry handling and format conversion,
+      where the answer is known.</span>
+    </a>
+    <a href="https://huggingface.co/datasets/AI4EPS/quakeflow_das" target="_blank" rel="noopener">
+      <span class="t">quakeflow_das — ML-ready DAS</span>
+      <span class="m">Hugging Face · AI4EPS · derived from SCEDC Ridgecrest</span>
+      <span class="w">Pre-packaged for machine learning, so you skip the data-engineering week entirely
+      if what you want is to test a picker. Pairs with the PhaseNet-DAS line of work from the same group.</span>
+    </a>
+  </div>
+
+  <div class="note warn">
+    <h4>Check your disk before you download</h4>
+    <p>PubDAS is ~90 TB in total and individual datasets run to terabytes. Pull one short window
+    first, confirm your reader and your decimation, and only then scale up. The habit you build here
+    is exactly the habit a real deployment will demand.</p>
+  </div>
+</section>
+
+<section id="ibr">
+  <h2><i>06</i>Getting fibre in the Indo-Burma Ranges</h2>
+  <p class="dek">Three separate acquisitions: a span, an interrogator, and permission</p>
+
+  <p>A CrossRef search returns no DAS seismology papers for India. That is the opportunity and the
+  problem: there is no precedent to point at, so the first agreement has to be argued from scratch.
+  Both plausible fibre owners are central PSUs, which is better than it sounds — they run formal
+  MoU processes with academic institutions and already sell dark fibre as a product.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr><th>Owner</th><th>Network</th><th>Coupling</th><th>Why it matters here</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>RailTel</td>
+          <td>~62,000 km along Indian Railways; dark-fibre leasing is an advertised product</td>
+          <td>Buried — good</td>
+          <td>The Lumding–Badarpur hill section climbs through the Barail range near the Kopili fault
+          zone. Buried cable across a structure you already study.</td>
+        </tr>
+        <tr>
+          <td>PowerGrid</td>
+          <td>~78,000 km of OFC, largely OPGW on transmission towers</td>
+          <td>Aerial — poor</td>
+          <td>Widest reach, worst coupling: optical ground wire hangs on towers and is largely
+          decoupled from ground motion. A fallback where rail does not go.</td>
+        </tr>
+        <tr>
+          <td>BSNL / BharatNet</td>
+          <td>The broadest state-owned footprint, including rural Meghalaya and Manipur</td>
+          <td>Mixed</td>
+          <td>The only realistic route into the plateau and hill districts that rail and transmission
+          corridors miss.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The interrogator</h3>
+  <p>Buying is not the normal academic route. The published literature is full of acknowledgements
+  to <strong>Silixa</strong> (iDAS) and <strong>Luna/OptaSense</strong> for loaning units for
+  specific campaigns; <strong>Febus Optics</strong>, <strong>Terra15</strong>,
+  <strong>AP Sensing</strong> and <strong>Sintela</strong> are the other names to write to. A vendor
+  will often trade a two-to-four-week loan for a case study in a new market, and <em>"first DAS
+  deployment in India"</em> is a marketing story none of them currently has.</p>
+  <p>Two alternatives: piggyback on a group that already owns one and already holds regional permits
+  — the Lamont/Columbia and Singapore EOS teams working in Bangladesh and Myanmar — or collaborate
+  with an Indian photonics group (CSIR-CSIO, IIT photonics departments) that builds phase-OTDR
+  systems. A locally built interrogator will be lower-spec than a commercial unit, but for regional
+  earthquake detection lower-spec may be sufficient, and you keep it.</p>
+
+  <div class="note warn">
+    <h4>The constraint that is not technical</h4>
+    <p>Telecom infrastructure near the Myanmar border in Manipur and Nagaland is treated as
+    strategic, and permission difficulty rises sharply east of the Barails. The Assam valley and the
+    Shillong Plateau are the tractable side — which is fortunate, because Kopili and the Dauki front
+    are there. Apply through an institution (IIT Guwahati, CSIR-NEIST Jorhat, NCS/MoES) and frame the
+    request as disaster-risk reduction, not research curiosity; that framing survives an
+    administrative review that "PhD experiment" does not.</p>
+  </div>
+
+  <h3>If what you want is offshore</h3>
+  <p>For the Bengal margin, <strong>polarisation-state and laser-interferometry sensing over
+  existing submarine cables</strong> is worth knowing about: it needs no interrogator at the far end,
+  only cooperation from whoever operates the link's transceivers. You get one integrated measurement
+  per cable segment rather than per-metre channels — far coarser than DAS — but it has detected
+  teleseisms across ocean basins, and it is the only route to offshore data that does not require
+  ship time.</p>
+</section>
+
+<section id="month">
+  <h2><i>07</i>A first month that costs nothing</h2>
+  <p class="dek">Sequenced so that every step produces something usable even if the next one stalls</p>
+
+  <ol class="plan">
+    <li>Read Lindsey &amp; Martin (2021) end to end. Nothing else makes sense before it.</li>
+    <li>Install DASCore. Load one short Ridgecrest window from the SCEDC public bucket and produce a
+    waterfall plot of a single aftershock. This is the afternoon that makes DAS concrete.</li>
+    <li>Run your existing picker on that DAS window and watch it underperform. Understanding
+    <em>why</em> strain data breaks a velocity-trained model is the insight that connects DAS to
+    gap 02 on your ranked list.</li>
+    <li>Reproduce one figure from Ajo-Franklin (2019) — the PDF is already on your disk — using
+    public data. A reproduction is a legitimate methods note and an unarguable credential.</li>
+    <li>Write a two-page pilot proposal: a few kilometres of campus dark strand, a loaned
+    interrogator, two weeks, one figure showing a regional Indo-Burma earthquake across a few
+    thousand channels. Send it to three vendors and your institute's networking group in the same week.</li>
+    <li>Only then approach RailTel — carrying the campus figure. The trunk-line conversation is a
+    different conversation once you can show a recording.</li>
+  </ol>
+</section>
+
+<footer>
+  <p><b>How current this is.</b> The repositories, software and network figures here were checked
+  against live sources in September 2026 and the links go to those sources rather than to my
+  recollection. Everything about leasing terms, loan programmes and permissions is a starting point
+  for a phone call, not a quotation — those change without notice and none of them is published
+  in a form I can verify.</p>
+  <p><b>What is judgement rather than fact.</b> The coupling ranking of buried versus aerial cable,
+  the border-permission caution, and the claim that RailTel is the best first approach are my
+  reading of the situation, not sourced statements. The physics in sections 01 and 02, the software
+  and the datasets are checkable, and you should check them.</p>
+  <p><b>Related.</b> This page expands gap 14 of the Indo-Burma method-gap analysis. DAS ranks 14th
+  there not because the science is weak — it is one of the strongest ideas on the list — but because
+  it is the only one blocked by an agreement you cannot write yourself. Sections 05 and 07 exist to
+  get you moving while that agreement is pending.</p>
+</footer>
+
+</main>
+</div>
+
+</body>
+</html>

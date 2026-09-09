@@ -1,0 +1,66 @@
+{
+ "dlpick": {
+  "year": 2022,
+  "first": "Woollam",
+  "n": 13,
+  "journal": "Seismological Research Letters",
+  "doi": "10.1785/0220210324",
+  "title": "SeisBench\u2014A Toolbox for Machine Learning in Seismology"
+ },
+ "tmatch": {
+  "year": 2006,
+  "first": "Gibbons",
+  "n": 2,
+  "journal": "Geophysical Journal International",
+  "doi": "10.1111/j.1365-246x.2006.02865.x",
+  "title": "The detection of low magnitude seismic events using array-based waveform correlation"
+ },
+ "das": {
+  "year": 2019,
+  "first": "Sladen",
+  "n": 7,
+  "journal": "Nature Communications",
+  "doi": "10.1038/s41467-019-13793-z",
+  "title": "Distributed sensing of earthquakes and ocean-solid Earth interactions on seafloor telecom cables"
+ },
+ "bval1": {
+  "year": 2024,
+  "first": "Mirwald",
+  "n": 3,
+  "journal": "Seismological Research Letters",
+  "doi": "10.1785/0220240190",
+  "title": "How to <i>b</i>-Significant When Analyzing <i>b</i>-Value Variations"
+ },
+ "bval2": {
+  "year": 2021,
+  "first": "van der Elst",
+  "n": 1,
+  "journal": "Journal of Geophysical Research: Solid Earth",
+  "doi": "10.1029/2020jb021027",
+  "title": "<i>B\u2010Positive</i>: A Robust Estimator of Aftershock Magnitude Distribution in Transiently Incomplete Catalogs"
+ },
+ "denoise": {
+  "year": 2019,
+  "first": "Zhu",
+  "n": 3,
+  "journal": "IEEE Transactions on Geoscience and Remote Sensing",
+  "doi": "10.1109/tgrs.2019.2926772",
+  "title": "Seismic Signal Denoising and Decomposition Using Deep Neural Networks"
+ },
+ "risk": {
+  "year": 2015,
+  "first": "Nath",
+  "n": 4,
+  "journal": "Natural Hazards and Earth System Sciences",
+  "doi": "10.5194/nhess-15-1103-2015",
+  "title": "Seismic vulnerability and risk assessment of Kolkata City, India"
+ },
+ "nodal": {
+  "year": 2015,
+  "first": "Ben-Zion",
+  "n": 10,
+  "journal": "Geophysical Journal International",
+  "doi": "10.1093/gji/ggv142",
+  "title": "Basic data features and results from a spatially dense seismic array on the San Jacinto fault zone"
+ }
+}

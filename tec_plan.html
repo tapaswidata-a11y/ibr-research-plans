@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Does TEC See It Coming? — Rank 09 Work Plan</title>
+  <meta name="description" content="Methodological work plan for seismo-ionospheric TEC precursor evaluation and machine learning quiet-ionosphere modelling in the Indo-Burma Ranges.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+  <style>
+    :root {
+      /* Base Theme (Light Mode Default) */
+      --paper: #f8fafc;
+      --surface: #ffffff;
+      --surface-elevated: #ffffff;
+      --sunk: #f1f5f9;
+      --sunk-hover: #e2e8f0;
+      --rule: #e2e8f0;
+      --rule-strong: #cbd5e1;
+      
+      --ink: #0f172a;
+      --ink2: #334155;
+      --muted: #64748b;
+      --faint: #94a3b8;
+      
+      /* Accent Colors */
+      --sig: #2563eb;
+      --sig-soft: #eff6ff;
+      --sig-border: #bfdbfe;
+      
+      --anom: #c026d3;
+      --anom-soft: #fdf4ff;
+      --anom-border: #f5d0fe;
+      
+      --warn: #d97706;
+      --warn-soft: #fffbeb;
+      --warn-border: #fde68a;
+
+      --success: #059669;
+      --success-soft: #ecfdf5;
+      --success-border: #a7f3d0;
+
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    [data-theme="dark"],
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #0b0f19;
+        --surface: #111827;
+        --surface-elevated: #162032;
+        --sunk: #151e2e;
+        --sunk-hover: #1e293b;
+        --rule: #1e293b;
+        --rule-strong: #334155;
+        
+        --ink: #f8fafc;
+        --ink2: #cbd5e1;
+        --muted: #94a3b8;
+        --faint: #64748b;
+        
+        --sig: #60a5fa;
+        --sig-soft: #172554;
+        --sig-border: #1e3a8a;
+        
+        --anom: #e879f9;
+        --anom-soft: #3b0764;
+        --anom-border: #581c87;
+        
+        --warn: #fbbf24;
+        --warn-soft: #451a03;
+        --warn-border: #78350f;
+
+        --success: #34d399;
+        --success-soft: #064e3b;
+        --success-border: #065f46;
+
+        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+      }
+    }
+
+    [data-theme="dark"] {
+      --paper: #0b0f19;
+      --surface: #111827;
+      --surface-elevated: #162032;
+      --sunk: #151e2e;
+      --sunk-hover: #1e293b;
+      --rule: #1e293b;
+      --rule-strong: #334155;
+      
+      --ink: #f8fafc;
+      --ink2: #cbd5e1;
+      --muted: #94a3b8;
+      --faint: #64748b;
+      
+      --sig: #60a5fa;
+      --sig-soft: #172554;
+      --sig-border: #1e3a8a;
+      
+      --anom: #e879f9;
+      --anom-soft: #3b0764;
+      --anom-border: #581c87;
+      
+      --warn: #fbbf24;
+      --warn-soft: #451a03;
+      --warn-border: #78350f;
+
+      --success: #34d399;
+      --success-soft: #064e3b;
+      --success-border: #065f46;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Literata', Georgia, serif;
+      font-size: 16.5px;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Reading Progress Bar */
+    #reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3.5px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--sig), var(--anom));
+      z-index: 999;
+      transition: width 0.1s ease-out;
+    }
+
+    a {
+      color: var(--sig);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: color 0.15s ease;
+    }
+    a:hover {
+      color: var(--anom);
+    }
+    :focus-visible {
+      outline: 2px solid var(--anom);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px 100px;
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 0 54px;
+      align-items: start;
+    }
+
+    /* Left Sidebar Rail */
+    .rail {
+      position: sticky;
+      top: 24px;
+      padding: 32px 0 24px;
+      max-height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: 'Chivo', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 17px;
+      line-height: 1.25;
+      margin: 0;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .brand span {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--anom);
+      background: var(--anom-soft);
+      border: 1px solid var(--anom-border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .rail nav {
+      margin-top: 24px;
+      border-top: 1px solid var(--rule);
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .rail a {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      align-items: baseline;
+      padding: 9px 8px;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Chivo', sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--muted);
+      transition: all 0.15s ease;
+      margin-bottom: 2px;
+    }
+    .rail a:hover {
+      color: var(--ink);
+      background: var(--sunk);
+    }
+    .rail a.active {
+      color: var(--sig);
+      background: var(--sig-soft);
+      font-weight: 700;
+    }
+    .rail a i {
+      font-family: "IBM Plex Mono", monospace;
+      font-style: normal;
+      font-size: 10.5px;
+      color: var(--faint);
+      font-variant-numeric: tabular-nums;
+      transition: color 0.15s ease;
+    }
+    .rail a:hover i,
+    .rail a.active i {
+      color: var(--sig);
+    }
+
+    /* Theme Controls in Rail */
+    .theme-panel {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid var(--rule);
+    }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      background: var(--sunk);
+      border: 1px solid var(--rule);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .theme-btn {
+      flex: 1;
+      border: none;
+      background: none;
+      color: var(--muted);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 6px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .theme-btn:hover {
+      color: var(--ink);
+    }
+    .theme-btn.active {
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    /* Header & Standfirst */
+    header.top {
+      padding: 48px 0 0;
+      max-width: 76ch;
+    }
+    .badge-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+    .badge.anom {
+      background: var(--anom-soft);
+      color: var(--anom);
+      border: 1px solid var(--anom-border);
+    }
+    .badge.sig {
+      background: var(--sig-soft);
+      color: var(--sig);
+      border: 1px solid var(--sig-border);
+    }
+    .badge.neutral {
+      background: var(--sunk);
+      color: var(--ink2);
+      border: 1px solid var(--rule);
+    }
+
+    h1 {
+      font-family: 'Chivo', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(34px, 4.8vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      margin: 0 0 20px;
+      text-wrap: balance;
+      color: var(--ink);
+    }
+    .stand {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink2);
+      margin: 0;
+      max-width: 66ch;
+      font-weight: 400;
+    }
+    .stand em {
+      color: var(--ink);
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    /* Modern Spec / Stat Cards Grid */
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 36px 0 12px;
+    }
+    .spec {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-md);
+      padding: 16px 18px 14px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .spec:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--rule-strong);
+    }
+    .spec::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--rule);
+      transition: background 0.2s ease;
+    }
+    .spec:nth-child(1)::before { background: var(--anom); }
+    .spec:nth-child(2)::before { background: var(--sig); }
+    .spec:nth-child(3)::before { background: var(--sig); }
+    .spec:nth-child(4)::before { background: var(--success); }
+    .spec:nth-child(5)::before { background: var(--anom); }
+
+    .spec b {
+      display: block;
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.15;
+    }
+    .spec span {
+      display: block;
+      font-family: 'Chivo', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+      line-height: 1.35;
+      font-weight: 600;
+    }
+
+    /* Content Sections */
+    section {
+      margin: 64px 0 0;
+      max-width: 76ch;
+      scroll-margin-top: 36px;
+    }
+    h2 {
+      font-family: 'Chivo', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 27px;
+      line-height: 1.2;
+      margin: 0 0 6px;
+      color: var(--ink);
+      text-wrap: balance;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: baseline;
+      letter-spacing: -0.025em;
+    }
+    h2 i {
+      font-family: "IBM Plex Mono", monospace;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: var(--anom);
+      background: var(--anom-soft);
+      border: 1px solid var(--anom-border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+    .dek {
+      font-family: 'Chivo', sans-serif;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--muted);
+      margin: 0 0 24px 44px;
+      line-height: 1.45;
+    }
+    section p {
+      margin: 0 0 16px;
+      color: var(--ink2);
+    }
+    h3 {
+      font-family: 'Chivo', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      margin: 32px 0 12px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    code, .v {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.88em;
+      background: var(--sunk);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+    }
+    .v {
+      background: var(--sig-soft);
+      color: var(--sig);
+      border: 1px solid var(--sig-border);
+      font-weight: 500;
+    }
+    ul {
+      margin: 0 0 18px;
+      padding-left: 22px;
+    }
+    li {
+      margin: 0 0 9px;
+      color: var(--ink2);
+    }
+
+    /* Elevated Scientific Figures */
+    figure {
+      margin: 32px 0 28px;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    figure-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 18px;
+      background: var(--sunk);
+      border-bottom: 1px solid var(--rule);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--surface);
+      color: var(--ink2);
+      padding: 12px 14px;
+    }
+    figcaption {
+      font-family: 'Chivo', sans-serif;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+      padding: 14px 20px 18px;
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+    }
+    figcaption strong {
+      color: var(--ink);
+    }
+
+    /* Polished Table */
+    .tw {
+      overflow-x: auto;
+      margin: 24px 0 24px;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-family: 'Chivo', sans-serif;
+      font-size: 13.5px;
+    }
+    th, td {
+      text-align: left;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: middle;
+    }
+    th {
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--sunk);
+      white-space: nowrap;
+    }
+    td:first-child {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    tbody tr {
+      transition: background 0.12s ease;
+    }
+    tbody tr:hover {
+      background: var(--sunk);
+    }
+    tr:last-child td {
+      border-bottom: 0;
+    }
+    td .yr {
+      font-family: "IBM Plex Mono", monospace;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Paper Category Pill Badges */
+    .pill {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .pill.precursor {
+      background: var(--anom-soft);
+      color: var(--anom);
+      border: 1px solid var(--anom-border);
+    }
+    .pill.coseismic {
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+    .pill.method {
+      background: var(--sig-soft);
+      color: var(--sig);
+      border: 1px solid var(--sig-border);
+    }
+    .pill.thesis {
+      background: var(--sunk);
+      color: var(--ink2);
+      border: 1px solid var(--rule-strong);
+    }
+
+    /* Polished Notes / Callouts */
+    .note {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--sig);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 18px 22px;
+      margin: 26px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .note.anom {
+      border-left-color: var(--anom);
+      background: linear-gradient(to right, var(--anom-soft), var(--surface) 40%);
+    }
+    .note.warn {
+      border-left-color: var(--warn);
+      background: linear-gradient(to right, var(--warn-soft), var(--surface) 40%);
+    }
+    .note h4 {
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 11.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sig);
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .note.anom h4 { color: var(--anom); }
+    .note.warn h4 { color: var(--warn); }
+    .note p:last-child,
+    .note ul:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Enhanced Multi-Phase Protocol Stepper */
+    .protocol-group {
+      margin-top: 24px;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .group-header {
+      background: var(--sunk);
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--rule);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    ol.steps {
+      counter-reset: s;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    ol.steps li {
+      counter-increment: s;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--rule);
+      margin: 0;
+      transition: background 0.12s ease;
+    }
+    ol.steps li:last-child {
+      border-bottom: 0;
+    }
+    ol.steps li:hover {
+      background: var(--sunk);
+    }
+    ol.steps li::before {
+      content: counter(s, decimal-leading-zero);
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--anom);
+      background: var(--anom-soft);
+      border: 1px solid var(--anom-border);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    ol.steps b {
+      display: block;
+      font-family: 'Chivo', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ink);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+    ol.steps p {
+      margin: 0;
+      font-size: 15.5px;
+      line-height: 1.58;
+    }
+
+    /* Publication & Tool Cards */
+    .res {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+    .res a {
+      display: block;
+      text-decoration: none;
+      padding: 16px 18px;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      color: inherit;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .res a:hover {
+      transform: translateY(-2px);
+      border-color: var(--sig);
+      box-shadow: var(--shadow-md);
+      background: var(--surface-elevated);
+    }
+    .res .t {
+      font-family: 'Chivo', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.35;
+      color: var(--sig);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .res .m {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11.5px;
+      color: var(--muted);
+      display: block;
+      margin-top: 5px;
+    }
+    .res .w {
+      display: block;
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: var(--ink2);
+      margin-top: 8px;
+      max-width: 68ch;
+    }
+    .tag {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      white-space: nowrap;
+      background: var(--sig-soft);
+      color: var(--sig);
+      border: 1px solid var(--sig-border);
+    }
+    .tag.have {
+      background: var(--anom-soft);
+      color: var(--anom);
+      border-color: var(--anom-border);
+    }
+
+    /* Footer */
+    footer {
+      max-width: 76ch;
+      margin: 80px 0 0;
+      padding-top: 28px;
+      border-top: 2px solid var(--rule-strong);
+      font-family: 'Chivo', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    footer p {
+      margin: 0 0 14px;
+    }
+    footer b {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    /* Back to top floating pill */
+    #back-to-top {
+      position: fixed;
+      bottom: 24px;
+      right: 28px;
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      box-shadow: var(--shadow-md);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    #back-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #back-to-top:hover {
+      background: var(--sunk);
+      border-color: var(--rule-strong);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .page {
+        grid-template-columns: 1fr;
+        padding: 0 20px 80px;
+      }
+      .rail {
+        position: static;
+        padding: 24px 0 12px;
+        max-height: none;
+      }
+      .rail nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 4px;
+        max-height: 240px;
+      }
+      .theme-panel {
+        margin-top: 16px;
+      }
+      header.top {
+        padding-top: 24px;
+      }
+      h2 {
+        font-size: 23px;
+      }
+      .dek {
+        margin-left: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="reading-progress"></div>
+
+<div class="page">
+
+  <!-- Sticky Left Sidebar Rail -->
+  <aside class="rail">
+    <div>
+      <p class="brand">TEC, Scored<span>Rank 09 · work plan</span></p>
+      <nav id="doc-nav">
+        <a href="#state"><i>01</i>What the eight papers do</a>
+        <a href="#build"><i>02</i>Making TEC properly</a>
+        <a href="#confound"><i>03</i>The confounders</a>
+        <a href="#score"><i>04</i>The missing half</a>
+        <a href="#ml"><i>05</i>Where ML belongs</a>
+        <a href="#protocol"><i>06</i>The protocol</a>
+        <a href="#publish"><i>07</i>What you publish</a>
+        <a href="#kit"><i>08</i>Data and software</a>
+      </nav>
+    </div>
+
+    <div class="theme-panel">
+      <div class="theme-toggle" role="group" aria-label="Color theme switcher">
+        <button class="theme-btn" data-theme-val="light" title="Light Theme">☀️ Light</button>
+        <button class="theme-btn" data-theme-val="dark" title="Dark Theme">🌙 Dark</button>
+        <button class="theme-btn active" data-theme-val="auto" title="System Theme">💻 Auto</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Canvas -->
+  <main>
+
+    <header class="top">
+      <div class="badge-bar">
+        <span class="badge anom">Method Gap 09</span>
+        <span class="badge sig">Public Data</span>
+        <span class="badge neutral">Laptop-Scale</span>
+        <span class="badge neutral">Quiet-Ionosphere ML</span>
+      </div>
+      <h1>Does ionospheric TEC see an earthquake coming?</h1>
+      <p class="stand">Eight papers in your bibliography touch seismo-ionospheric TEC for this region.
+      Five of them make a precursor claim, and each uses a sliding median with a fixed 2σ threshold;
+      none reports how often that threshold fires when <em>no</em> earthquake follows. Without that number the claim is
+      unfalsifiable, which is precisely the criticism the precursor field has faced for forty years.
+      This project supplies the missing number — with a machine-learning detector, and with the alarm
+      scoring that the machine learning does not replace.</p>
+    </header>
+
+    <div class="specs">
+      <div class="spec">
+        <b>5</b>
+        <span>Precursor claims to score</span>
+      </div>
+      <div class="spec">
+        <b>~624 km</b>
+        <span>Dobrovolsky radius, M 6.5</span>
+      </div>
+      <div class="spec">
+        <b>350 km</b>
+        <span>Thin-shell height</span>
+      </div>
+      <div class="spec">
+        <b>2001–2025</b>
+        <span>GNSS record available</span>
+      </div>
+      <div class="spec">
+        <b>0</b>
+        <span>New instruments required</span>
+      </div>
+    </div>
+
+    <!-- Section 01 -->
+    <section id="state">
+      <h2><i>01</i>What the eight papers do</h2>
+      <p class="dek">A shared recipe, and a shared omission</p>
+
+      <p>The regional workflow is remarkably consistent. Take vertical TEC at a station or from a global
+      map; build a running median over the previous 15 or 27 days; flag any hour whose TEC departs from
+      that median by more than about 2σ; discard days when the geomagnetic indices are disturbed; and
+      check whether a flagged day falls within the earthquake preparation zone in the days before a
+      target event.</p>
+
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th>Study</th>
+              <th>Focus / Target</th>
+              <th>Category</th>
+              <th>Methodological Scope</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Catherine et al. <span class="yr">2017</span></td>
+              <td>2015 Gorkha M 7.8</td>
+              <td><span class="pill coseismic">Co-seismic</span></td>
+              <td>GPS-TEC disturbances after the event — co-seismic, not precursory</td>
+            </tr>
+            <tr>
+              <td>Sharma et al. <span class="yr">2021a</span></td>
+              <td>2016 Manipur earthquake</td>
+              <td><span class="pill precursor">Precursor Claim</span></td>
+              <td>Statistical behaviour of electron density before the event</td>
+            </tr>
+            <tr>
+              <td>Sharma et al. <span class="yr">2021b</span></td>
+              <td>NE India, 2012–2018</td>
+              <td><span class="pill precursor">Precursor Claim</span></td>
+              <td>TEC anomalies as precursors from a regional GPS network</td>
+            </tr>
+            <tr>
+              <td>Colonna et al. <span class="yr">2026</span></td>
+              <td>2025 Myanmar M<sub>w</sub> 7.7</td>
+              <td><span class="pill precursor">Precursor Claim</span></td>
+              <td>Seismo-ionospheric and seismological parameters in a coupling framework</td>
+            </tr>
+            <tr>
+              <td>Carvajal Librado <span class="yr">2023</span></td>
+              <td>Doctoral thesis</td>
+              <td><span class="pill thesis">Thesis</span></td>
+              <td>Precursors versus ionospheric scintillation</td>
+            </tr>
+            <tr>
+              <td>Boudriki Semlali <span class="yr">2025</span></td>
+              <td>Doctoral thesis</td>
+              <td><span class="pill thesis">Thesis</span></td>
+              <td>Helio-geo-ionospheric proxies for short-term forecasting</td>
+            </tr>
+            <tr>
+              <td>Sezen et al. <span class="yr">2013</span></td>
+              <td>Methodology</td>
+              <td><span class="pill method">Method</span></td>
+              <td>IONOLAB-TEC: automatic near-real-time GPS-TEC estimation</td>
+            </tr>
+            <tr>
+              <td>Naumov <span class="yr">2023</span></td>
+              <td>Software / Tool</td>
+              <td><span class="pill method">Software</span></td>
+              <td>Methods and software for TEC estimation from GNSS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Two of those are pure methodology and one is explicitly co-seismic — worth separating, because
+      <strong>a co-seismic ionospheric disturbance is a well-established physical observation</strong>
+      and not in dispute. Acoustic waves from the rupture reach the F region in about eight minutes and
+      are detectable. That is real physics. The precursory claim is a different and far weaker one, and
+      it is the one under test here.</p>
+
+      <div class="note anom">
+        <h4>⚡ The omission, stated precisely</h4>
+        <p>A 2σ threshold on a noisy geophysical series fires roughly 5% of the time by construction.
+        Over a decade that is about 180 alarm days. If a handful of them precede earthquakes, the
+        interesting question is not "did TEC anomalies precede earthquakes" — with that many alarms, some
+        inevitably did — but <strong>"did they precede earthquakes more often than random alarms of the
+        same rate would"</strong>. None of the five precursor papers answers that, and two of them do not
+        report an alarm rate at all, which makes the question unanswerable from the published text.</p>
+      </div>
+    </section>
+
+    <!-- Section 02 -->
+    <section id="build">
+      <h2><i>02</i>Making TEC properly</h2>
+      <p class="dek">The processing chain, and where it bites you on Linux</p>
+
+      <p>Dual-frequency GNSS gives slant TEC almost for free — the ionosphere is dispersive, so the
+      differential delay between the L1 and L2 carriers is proportional to the electron content along
+      the ray path. Everything difficult is in what comes after.</p>
+
+      <figure>
+        <figure-header>
+          <span>Figure 1 · Spatial Geometry &amp; Mapping Chain</span>
+          <span>Dual-Frequency Carrier Phase</span>
+        </figure-header>
+        <svg viewBox="0 0 720 310" role="img" aria-label="The GNSS TEC processing chain: a satellite ray pierces a thin shell at 350 km at the ionospheric pierce point, slant TEC is corrected for satellite and receiver biases and mapped to vertical TEC, then differenced against a running median to form an anomaly.">
+          <defs>
+            <marker id="t1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1 10,5 0,9" fill="currentColor"/>
+            </marker>
+            <linearGradient id="ionGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#c026d3" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Shell atmosphere layer -->
+          <path d="M 30 145 Q 360 85 690 145 L 690 115 Q 360 55 30 115 Z" fill="url(#ionGrad)" opacity="0.6"/>
+
+          <!-- Earth Surface -->
+          <path d="M 30 220 Q 360 178 690 220" fill="none" stroke="currentColor" stroke-width="2.2" opacity="0.85"/>
+          <text x="44" y="242" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">Earth Surface</text>
+
+          <!-- Ionospheric Thin Shell -->
+          <path d="M 30 130 Q 360 82 690 130" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8 6"/>
+          <text x="44" y="118" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#3b82f6">Thin Shell Model (h = 350 km)</text>
+
+          <!-- GNSS Receiver -->
+          <circle cx="196" cy="204" r="6" fill="#2563eb"/>
+          <circle cx="196" cy="204" r="11" fill="none" stroke="#2563eb" stroke-width="1.2" opacity="0.5"/>
+          <text x="140" y="196" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="currentColor">GNSS Receiver</text>
+
+          <!-- Satellite Symbol -->
+          <g transform="translate(470, 48)">
+            <polygon points="0,-12 14,0 0,12 -14,0" fill="#c026d3" opacity="0.8"/>
+            <rect x="-26" y="-5" width="10" height="10" fill="currentColor" opacity="0.7"/>
+            <rect x="16" y="-5" width="10" height="10" fill="currentColor" opacity="0.7"/>
+            <line x1="-16" y1="0" x2="16" y2="0" stroke="currentColor" stroke-width="1.5"/>
+          </g>
+          <text x="470" y="28" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="currentColor">GNSS Satellite (Orbit ~20,200 km)</text>
+
+          <!-- Line of sight / Ray path -->
+          <line x1="196" y1="204" x2="470" y2="48" stroke="#3b82f6" stroke-width="2.2"/>
+          <circle cx="370" cy="105" r="6.5" fill="#c026d3"/>
+          <circle cx="370" cy="105" r="12" fill="none" stroke="#c026d3" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <text x="384" y="98" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="600" fill="#c026d3">Ionospheric Pierce Point (IPP)</text>
+
+          <!-- Elevation Angle Arc -->
+          <path d="M 246 193 A 56 56 0 0 0 262 168" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.7"/>
+          <text x="256" y="184" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="currentColor">ε</text>
+          <text x="196" y="266" font-family="Chivo, sans-serif" font-size="12.5" fill="var(--muted)">Elevation cutoff 30° — lower rays traverse multi-path / excessive shell thickness</text>
+
+          <!-- Formula Step Flow -->
+          <g font-family="Chivo, sans-serif" font-size="13" font-weight="600" fill="currentColor">
+            <text x="40" y="292">Slant TEC (STEC)</text>
+            <text x="184" y="292">− Sat &amp; Rec DCBs</text>
+            <text x="378" y="292">× Mapping Function M(ε)</text>
+            <text x="560" y="292">= Vertical TEC (VTEC)</text>
+          </g>
+          <g stroke="currentColor" stroke-width="1.4" marker-end="url(#t1)" opacity="0.7">
+            <line x1="152" y1="288" x2="174" y2="288"/>
+            <line x1="344" y1="288" x2="368" y2="288"/>
+            <line x1="528" y1="288" x2="550" y2="288"/>
+          </g>
+        </svg>
+        <figcaption><strong>Figure 1 Note:</strong> Every step is a potential place to lose the signal you are hunting. Differential code biases (DCBs)
+        are of the same order as the anomalies claimed as precursors, so an uncalibrated or
+        inconsistently calibrated series can manufacture synthetic precursors. The thin-shell mapping function assumes
+        all the electrons sit at one height — an assumption that is worst exactly where you are working,
+        under the equatorial anomaly crest, where the vertical profile shape shifts dynamically throughout the day.</figcaption>
+      </figure>
+
+      <h3>Two routes, and you should run both</h3>
+      <p><strong>Global ionosphere maps</strong> (IONEX from CODE, JPL, UPC or ESA, via CDDIS) give you
+      a ready-made VTEC grid, typically 2.5° × 5°, at 1–2 hour cadence, spanning decades. Coarse, but
+      calibrated by people who do this professionally, and the fastest route to a first result.
+      <strong>Station RINEX</strong> from IGS and the Indian networks gives far finer time resolution and
+      the actual pierce points over your region, at the cost of doing the DCB work yourself.</p>
+
+      <div class="note warn">
+        <h4>⚠️ A practical note for your Linux setup</h4>
+        <p>The standard tool in the Indian community — Seemala's GPS-TEC analysis application, currently
+        version 3.5 — is a <strong>Windows executable</strong>. You are on Linux. Either run it under a VM
+        or Wine, or use a Python route (<code>georinex</code> for RINEX I/O plus your own DCB handling, or
+        GNSSTk/gLAB). Whichever you choose, <strong>validate it against IONEX GIMs for the same days
+        before trusting a single anomaly</strong> — most reported precursors are smaller than the
+        disagreement between two processing chains.</p>
+      </div>
+    </section>
+
+    <!-- Section 03 -->
+    <section id="confound">
+      <h2><i>03</i>The confounders, and why your region is the hardest case</h2>
+      <p class="dek">Northeast India sits under the worst possible piece of ionosphere for this work</p>
+
+      <p>This deserves stating plainly, because it is the strongest scientific content in the project and
+      it is absent from the regional literature.</p>
+
+      <p>The <strong>equatorial ionization anomaly (EIA)</strong> — the twin bands of enhanced electron density
+      that form either side of the magnetic equator when the daytime fountain effect lifts plasma and
+      lets it diffuse down field lines — puts its northern crest directly across the Indian subcontinent. Your
+      region sits near that crest, and the crest <em>moves</em>: its latitude and strength change with
+      local time, season, solar flux and magnetic activity. The result is day-to-day VTEC variability of
+      tens of percent with no seismic cause whatsoever, which is larger than any anomaly the precursor papers
+      report.</p>
+
+      <p>On top of that:</p>
+      <ul>
+        <li><strong>Geomagnetic storms</strong> produce TEC excursions far larger than any claimed
+        precursor. Screening on Kp and Dst is standard — but the screening thresholds are a free
+        parameter, and moving them moves your results.</li>
+        <li><strong>Solar cycle and F10.7.</strong> TEC scales with solar flux, so a fixed σ computed over
+        a multi-year window is non-stationary. The 2012–2018 window used in the regional work spans a
+        solar maximum and a deep solar decline.</li>
+        <li><strong>Equatorial plasma bubbles and scintillation</strong> are endemic to this longitude
+        sector after sunset, and they are irregular by nature. Post-sunset "anomalies" in this region
+        need a very good reason not to be bubbles.</li>
+        <li><strong>The preparation-radius convention.</strong> The Dobrovolsky relation
+        <span class="v">ρ = 10<sup>0.43M</sup></span> km gives about 624 km for M 6.5 — a circle large
+        enough to contain a great deal of independent ionosphere and, over a decade in this region, a
+        great many earthquakes. A wider radius mechanically increases your hit rate <em>and</em> your
+        false-alarm rate; only a scored comparison separates the two.</li>
+      </ul>
+    </section>
+
+    <!-- Section 04 -->
+    <section id="score">
+      <h2><i>04</i>The missing half: scoring the alarms</h2>
+      <p class="dek">This is the contribution — the ML is secondary to it</p>
+
+      <p>Anomaly detection produces alarms. An alarm system is evaluated by comparing it against a random
+      alarm system that fires at the same rate. The framework exists, it is standard in earthquake
+      forecast testing, and it has essentially never been applied to regional TEC precursor claims.</p>
+
+      <figure>
+        <figure-header>
+          <span>Figure 2 · Molchan Error Diagram</span>
+          <span>Forecast Testing &amp; Probability Gain</span>
+        </figure-header>
+        <svg viewBox="0 0 720 340" role="img" aria-label="A Molchan error diagram: fraction of time under alarm on the horizontal axis, miss rate on the vertical, a diagonal marking random performance, a skilful trajectory bowing below it, and a two-sigma threshold point sitting on the diagonal.">
+          <defs>
+            <marker id="t2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <polygon points="0,1 10,5 0,9" fill="#c026d3"/>
+            </marker>
+          </defs>
+
+          <!-- Axes -->
+          <line x1="96" y1="40" x2="96" y2="268" stroke="currentColor" stroke-width="1.6" opacity="0.8"/>
+          <line x1="96" y1="268" x2="486" y2="268" stroke="currentColor" stroke-width="1.6" opacity="0.8"/>
+
+          <!-- Axis Labels and Ticks -->
+          <text x="80" y="46" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">1.0</text>
+          <text x="80" y="272" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">0</text>
+          <text x="486" y="290" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">1.0</text>
+          <text x="96" y="290" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="currentColor">0</text>
+          
+          <text x="291" y="314" text-anchor="middle" font-family="Chivo, sans-serif" font-size="13" font-weight="700" fill="currentColor">τ — fraction of space–time under alarm</text>
+          <text x="44" y="154" text-anchor="middle" font-family="Chivo, sans-serif" font-size="13" font-weight="700" fill="currentColor" transform="rotate(-90 44 154)">Miss Rate (1 − ν)</text>
+
+          <!-- Random Alarm Diagonal -->
+          <line x1="96" y1="40" x2="486" y2="268" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 5"/>
+          <text x="330" y="184" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#94a3b8">Random Alarm (Null Hypothesis)</text>
+
+          <!-- Skilful Trajectory (Bowing Down) -->
+          <path d="M 96 40 C 180 130 280 208 486 268" fill="none" stroke="#2563eb" stroke-width="2.8"/>
+          <text x="146" y="126" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#2563eb">Skilful Detector</text>
+          <text x="146" y="142" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2563eb">Bows below diagonal</text>
+
+          <!-- 2-Sigma Operating Point on Diagonal -->
+          <circle cx="178" cy="88" r="7" fill="#c026d3"/>
+          <line x1="196" y1="80" x2="248" y2="66" stroke="#c026d3" stroke-width="1.5" marker-end="url(#t2)"/>
+          <text x="254" y="62" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="#c026d3">Where a 2σ threshold</text>
+          <text x="254" y="78" font-family="IBM Plex Mono, monospace" font-size="11" fill="#c026d3">has to be plotted to count</text>
+
+          <!-- Metric Summary Sidebar Box inside SVG -->
+          <g transform="translate(524, 46)">
+            <rect x="-12" y="-12" width="180" height="230" rx="8" fill="var(--sunk)" stroke="var(--rule)" stroke-width="1"/>
+            <text x="0" y="10" font-family="Chivo, sans-serif" font-size="13.5" font-weight="800" fill="currentColor">Core Skill Metrics</text>
+            <text x="0" y="38" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="currentColor">τ : alarm fraction</text>
+            <text x="0" y="60" font-family="IBM Plex Mono, monospace" font-size="11.5" font-weight="600" fill="currentColor">ν : hit rate (recall)</text>
+            <text x="0" y="82" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="700" fill="#2563eb">PG = ν / τ</text>
+            <line x1="0" y1="98" x2="150" y2="98" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+            <text x="0" y="120" font-family="Chivo, sans-serif" font-size="12" fill="currentColor"><strong>PG &gt; 1</strong> means the</text>
+            <text x="0" y="138" font-family="Chivo, sans-serif" font-size="12" fill="currentColor">detector beats chance.</text>
+            <text x="0" y="168" font-family="Chivo, sans-serif" font-size="12" fill="currentColor"><strong>Area Skill Score (ASS):</strong></text>
+            <text x="0" y="186" font-family="Chivo, sans-serif" font-size="12" fill="currentColor">1.0 = perfect score</text>
+            <text x="0" y="204" font-family="Chivo, sans-serif" font-size="12" fill="currentColor">0.5 = pure random</text>
+          </g>
+        </svg>
+        <figcaption><strong>Figure 2 Note:</strong> The Molchan error diagram is the whole argument in one picture. Any detector — 2σ
+        threshold, autoencoder, or transformer — becomes a point or a trajectory here, and the diagonal is
+        what a coin does. A published precursor claim that cannot be placed on this diagram has not been
+        tested; a claim that lands on the diagonal has been tested and failed.</figcaption>
+      </figure>
+
+      <p>Two consequences worth internalising before you start. First, the <strong>base rate</strong>
+      dominates: target earthquakes are rare, so even a detector with excellent recall will have terrible
+      precision, and quoting accuracy is meaningless. Report the Molchan trajectory, the probability gain
+      and the area skill score. Second, the <strong>target catalogue must be declustered</strong> — if
+      aftershocks count as separate targets, one lucky alarm before a mainshock scores repeatedly, which
+      is the same double-counting the b-value project has to avoid.</p>
+    </section>
+
+    <!-- Section 05 -->
+    <section id="ml">
+      <h2><i>05</i>Where the machine learning belongs</h2>
+      <p class="dek">Not as a detector of earthquakes — as a model of the quiet ionosphere</p>
+
+      <p>The framing that makes this project defensible: <strong>do not train a model to predict
+      earthquakes.</strong> Over 25 years you have of order ten target events and roughly 219,000 hourly
+      TEC samples. A classifier trained directly on that imbalance will memorise the positives and learn
+      nothing, and it will do so while producing an impressive-looking accuracy. Train a model to predict
+      <em>TEC</em> instead, and treat the part it cannot predict as the anomaly.</p>
+
+      <p>That inverts the usual precursor pipeline in a way that matters: the physics you are trying to
+      remove — solar flux, geomagnetic activity, diurnal and seasonal cycles, the anomaly crest overhead —
+      becomes the model's job, and it is a job the ionospheric community has already solved well.</p>
+
+      <h3>Layer 1 — forecast the quiet ionosphere</h3>
+      <p>This is a solved and actively published problem, and you should borrow rather than invent. The
+      ingredients are consistent across the literature: a sequence model over past TEC, driven by solar
+      and geomagnetic indices. <strong>Inputs:</strong> TEC history for the target cell and its
+      neighbours, F10.7 or EUV flux, Kp, Dst, hour of day and day of year encoded cyclically.
+      <strong>Target:</strong> TEC one to several hours ahead. <strong>Architectures, in ascending order
+      of cost:</strong> GRU or LSTM on a single cell's series; CNN-BiLSTM when you want spatial context
+      from the surrounding grid; transformer when you want multi-day lead time. Published work exists at
+      every rung, including for storm periods, which is exactly the regime that generates your false
+      alarms.</p>
+
+      <h3>Layer 2 — turn residual into anomaly</h3>
+      <p>The residual — observed minus predicted TEC — is the quantity to threshold, and it is a far
+      better-defined object than a departure from a 15-day median, because the drivers have already been
+      absorbed. Two disciplines apply. Standardise the residual <em>per cell and per local-time bin</em>,
+      since forecast error is not homogeneous across the anomaly crest or across the day. And estimate
+      the threshold on a training period only, then hold it fixed — a threshold re-fitted on the test
+      period is leakage wearing a lab coat.</p>
+
+      <h3>Layer 3 — turn anomaly into alarm, then score it</h3>
+      <p>An anomalous cell-hour is not an alarm. Define explicitly how anomalies aggregate into a
+      space–time alarm region — how many cells, over what window, within what radius — because that
+      definition is what the Molchan diagram scores. Declare it before you look, and declutter alarms the
+      same way you decluster the target catalogue, so one long anomaly is not counted as thirty.</p>
+
+      <div class="note anom">
+        <h4>⚡ Baselines you have to beat, in order</h4>
+        <ul>
+          <li><strong>Persistence</strong> — tomorrow's TEC equals today's. Embarrassingly strong at short
+          horizons.</li>
+          <li><strong>Climatology</strong> — the 15-day sliding median, i.e. the method in the papers you
+          are testing. This is the baseline the project exists to beat or refute.</li>
+          <li><strong>An empirical model</strong> — IRI or NeQuick as the "expected" ionosphere. Physics
+          rather than fitting, and it costs you nothing to run.</li>
+          <li><strong>One neuron</strong> — logistic regression on a handful of features. Mignan and
+          Broccardo showed a two-parameter logistic regression matching a 13,451-parameter deep network on
+          an aftershock task. If your LSTM cannot beat this, the LSTM is not the finding.</li>
+        </ul>
+      </div>
+
+      <div class="note warn">
+        <h4>⚠️ Three ways to leak, all of them fatal</h4>
+        <ul>
+          <li><strong>Normalising before splitting.</strong> Computing means or σ over the whole series
+          leaks the test period into training. Fit scalers on training data only.</li>
+          <li><strong>Random splits on a time series.</strong> Shuffling hours puts tomorrow in the
+          training set and yesterday in the test set. Split chronologically, always — and keep the
+          pre-event window of every target event out of training entirely.</li>
+          <li><strong>Choosing the window after seeing the result.</strong> Fix the pre-event window, the
+          radius and the magnitude threshold in advance. Trying 3, 5 and 7 days and reporting the best is
+          the same error the b-value literature makes, and here it is easier to commit and harder to
+          spot.</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <h4>ℹ️ The compute is not the constraint</h4>
+        <p>Hourly TEC from 2001 to 2025 is about 219,000 samples per grid cell — a series a GRU will fit
+        on a laptop CPU in minutes, and on your GPU in seconds. Everything expensive about this project is
+        experimental discipline: the splits, the fixed thresholds, the scoring. Budget your time
+        accordingly.</p>
+      </div>
+
+      <div class="res">
+        <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2024SW003877" target="_blank" rel="noopener">
+          <span class="t">Deep learning prediction of global ionospheric TEC during storm periods: mixed CNN-BiLSTM <span class="tag">Layer 1</span></span>
+          <span class="m">Ren et al. · Space Weather · 2024 · DOI: 10.1029/2024SW003877</span>
+          <span class="w">Storm periods are where your false alarms come from, so a model built and tested
+          on storms is the right starting architecture. CNN for spatial context, BiLSTM for the sequence —
+          a sensible default before reaching for anything larger.</span>
+        </a>
+        <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2023SW003579" target="_blank" rel="noopener">
+          <span class="t">Forecasting global ionosphere maps with multi-day lead time using transformer-based networks</span>
+          <span class="m">Shih et al. · Space Weather · 2024 · DOI: 10.1029/2023SW003579</span>
+          <span class="w">The transformer rung. Worth it only if you want lead times beyond a day — for
+          residual anomalies at hourly cadence the recurrent models are usually enough, and cheaper to
+          defend to a sceptical reviewer.</span>
+        </a>
+        <a href="https://arxiv.org/pdf/2502.15093" target="_blank" rel="noopener">
+          <span class="t">Forecasting local ionospheric parameters using transformers</span>
+          <span class="m">arXiv preprint · 2025</span>
+          <span class="w">Station-level rather than global — closer to what you would build for a regional
+          GNSS network, and useful for how it handles single-site drivers.</span>
+        </a>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0273117725014280" target="_blank" rel="noopener">
+          <span class="t">Two-stage TEC modelling for earthquake precursors: LSTM, GRU, RNN then random-forest classification <span class="tag">The Template</span></span>
+          <span class="m">Advances in Space Research · 2025 · 2023 Türkiye earthquakes</span>
+          <span class="w">The closest published analogue to what you would build, and a two-stage design
+          worth copying: forecast first, classify the residual second. Read it for the architecture — then
+          note what it does not report, which is where your contribution sits.</span>
+        </a>
+        <a href="https://pubs.geoscienceworld.org/ssa/srl/article-abstract/91/4/2330/586519/Neural-Network-Applications-in-Earthquake" target="_blank" rel="noopener">
+          <span class="t">Neural network applications in earthquake prediction 1994–2019: meta-analytic insights on their limitations <span class="tag">Read First</span></span>
+          <span class="m">Mignan &amp; Broccardo · Seismological Research Letters 91(4), 2330 · 2020 · arXiv: 1910.01178</span>
+          <span class="w">Seventy-seven papers reviewed, with the recurring failure modes: tiny positive
+          classes, absent baselines, and reported accuracy that evaporates against a simple model. Read it
+          before you write any ML code — it is the paper a sceptical reviewer will have read.</span>
+        </a>
+        <a href="https://www.nature.com/articles/s41586-019-1582-8" target="_blank" rel="noopener">
+          <span class="t">One neuron versus deep learning in aftershock prediction</span>
+          <span class="m">Mignan &amp; Broccardo · Nature 574 · 2019</span>
+          <span class="w">The concrete demonstration: two parameters matching thirteen thousand. This is
+          the source of the "one neuron" baseline above, and the cleanest argument for reporting a trivial
+          model alongside your best one.</span>
+        </a>
+        <a href="https://github.com/DASDAE/das-anomaly" target="_blank" rel="noopener">
+          <span class="t">das-anomaly — autoencoder anomaly detection, worked implementation</span>
+          <span class="m">Python · DASDAE · Built for DAS, structurally identical problem</span>
+          <span class="w">If you take the reconstruction-error route instead of the forecast route, this
+          is a readable implementation of the same idea in a neighbouring field — train on normal data,
+          flag what reconstructs badly.</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Section 06 -->
+    <section id="protocol">
+      <h2><i>06</i>The protocol</h2>
+      <p class="dek">Ordered so that a null result is interpretable — which needs a positive control</p>
+
+      <p>The order below is not arbitrary. Steps 03 and 05 are the two that make a negative finding mean
+      something: without a positive control you cannot distinguish "no precursor exists" from "my pipeline
+      does not work", and without a matched random null you cannot say a score is poor rather than merely
+      low.</p>
+
+      <!-- Phase 1 -->
+      <div class="protocol-group">
+        <div class="group-header">
+          <span>Phase 1 · Controls &amp; Dual-Processing Setup</span>
+          <span>Steps 01–03</span>
+        </div>
+        <ol class="steps">
+          <li>
+            <div>
+              <b>Fix the target catalogue and the alarm rules first</b>
+              <p>Magnitude threshold, region, declustering, pre-event window, preparation radius — written down and committed to the repository before the first plot. Use the same regional catalogue as the b-value project so the two studies are commensurable.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Build two independent TEC series</b>
+              <p>IONEX global maps over the region for the full period, and station-level VTEC from RINEX for the densest sub-period. Cross-validate them against each other and report the disagreement — that spread is your noise floor, and any claimed anomaly smaller than it is not a measurement.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Positive control: recover a known co-seismic disturbance</b>
+              <p>Before testing any precursory claim, confirm your pipeline detects an ionospheric disturbance that is <em>known</em> to exist — the acoustic wave arriving in the F region minutes after a large rupture. Catherine et al. (2017) did this for Gorkha 2015 and Colonna et al. (2026) for Myanmar 2025, both in your library, so you have published targets to reproduce. <strong>If this step fails, stop and fix the processing</strong> — every later null result would otherwise be uninterpretable.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="protocol-group">
+        <div class="group-header">
+          <span>Phase 2 · Published Baseline &amp; Null Ensemble</span>
+          <span>Steps 04–05</span>
+        </div>
+        <ol class="steps" style="counter-reset: s 3;">
+          <li>
+            <div>
+              <b>Reproduce the published precursor method exactly</b>
+              <p>15-day sliding median, 2σ, storm screening, applied to the five papers that make a precursory claim. Recover their reported anomalies. This is the control condition, and reproducing it is what earns you standing to critique it. Where a paper's parameters are not stated precisely enough to reproduce, record that — it is a finding in itself.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Score that baseline against a matched random null</b>
+              <p>Generate a large ensemble — a thousand or more — of random alarm sets that fire at exactly the same rate as the 2σ rule, score each, and plot the resulting distribution. Then place the real detector in it. This is the single figure the field is missing, and you have it before writing any machine learning.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="protocol-group">
+        <div class="group-header">
+          <span>Phase 3 · Quiet-Ionosphere ML &amp; Scoring</span>
+          <span>Steps 06–09</span>
+        </div>
+        <ol class="steps" style="counter-reset: s 5;">
+          <li>
+            <div>
+              <b>Declare the splits, then never touch them</b>
+              <p>Chronological only: an early training period, a middle validation period for model selection, and a late test period opened once. Every target event's pre-event window is excluded from training. Write the dates into the repository at this step, not later.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Fit the driver-aware forecast model</b>
+              <p>Train on the quiet period with F10.7, Kp, Dst and time-of-day/year as inputs alongside TEC. Select architecture and hyperparameters on the validation period only. Report its plain forecasting skill first — RMSE against persistence, climatology and an empirical model — because a model that forecasts TEC badly cannot produce meaningful residuals.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Form residual anomalies with thresholds fixed on training data</b>
+              <p>Standardise per cell and per local-time bin. The threshold is chosen once, on training data, and then frozen permanently.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Score the ML detector on the same Molchan diagram</b>
+              <p>Plot as a trajectory across thresholds rather than a single operating point, against the same random null and alongside the 2σ baseline and the one-neuron model. Three curves on one axis is the paper's main figure.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="protocol-group">
+        <div class="group-header">
+          <span>Phase 4 · Sensitivity &amp; Prospective Release</span>
+          <span>Steps 10–11</span>
+        </div>
+        <ol class="steps" style="counter-reset: s 9;">
+          <li>
+            <div>
+              <b>Map the sensitivity surface</b>
+              <p>Vary radius, pre-event window, magnitude cut and storm screening, and show the score across that grid rather than its best corner. A result that survives only one parameter combination has been found by searching, not by measuring.</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <b>Declare a prospective rule and release everything</b>
+              <p>Fix the best detector's parameters, state what it would have alarmed on, and run it forward on data acquired after the test period. Publish the anomaly series, the target catalogue and the scoring code, so the next claim in this field can be scored in an afternoon. That harness outlives whichever way your result falls.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 07 -->
+    <section id="publish">
+      <h2><i>07</i>What you publish</h2>
+      <p class="dek">Including the outcome most people would rather not have</p>
+
+      <p><strong>If the detectors land on the diagonal,</strong> you have the first properly scored
+      assessment of seismo-ionospheric precursors for the Indo-Burma region, and a clean statement that
+      the reported anomalies carry no forecasting skill. That is a genuine contribution to a field that
+      badly needs falsifiable results, and it is publishable in a space-physics or natural-hazards venue.
+      It also protects you: several of the eight papers are by groups you may end up collaborating with,
+      so frame it as method, not indictment.</p>
+
+      <p><strong>If something beats chance,</strong> the bar rises rather than falls — you would need to
+      show robustness across the parameter surface, and ideally a prospective test on data after the
+      training period. That is a much bigger paper, and the scoring machinery you built is what makes the
+      claim credible enough to be believed.</p>
+
+      <p><strong>Either way you own the infrastructure:</strong> a calibrated regional TEC series, a
+      driver-aware ionospheric model, and a scoring harness. The TEC series alone is reusable for
+      co-seismic ionospheric work — where the physics is solid — including the Myanmar 2025 event that
+      Colonna et al. analysed.</p>
+    </section>
+
+    <!-- Section 08 -->
+    <section id="kit">
+      <h2><i>08</i>Data and software</h2>
+      <p class="dek">All public, all free</p>
+
+      <div class="res">
+        <a href="https://cddis.nasa.gov/Data_and_Derived_Products/GNSS/atmospheric_products.html" target="_blank" rel="noopener">
+          <span class="t">CDDIS — IONEX Global Ionosphere Maps <span class="tag">Start Here</span></span>
+          <span class="m">NASA CDDIS · IONEX Format · CODE / JPL / UPC / ESA Analysis Centres</span>
+          <span class="w">Decades of calibrated global VTEC on a fixed grid. Coarse in space, but it gets
+          you to a scored baseline in days rather than months, and it is the reference against which you
+          validate your own RINEX processing.</span>
+        </a>
+        <a href="https://seemala.blogspot.com/2024/04/gps-tec-analysis-program-version-35.html" target="_blank" rel="noopener">
+          <span class="t">GPS-TEC Analysis Program v3.5 — Seemala <span class="tag">Windows Only</span></span>
+          <span class="m">seemala.blogspot.com · Portable Executable · RINEX 2 &amp; 3</span>
+          <span class="w">The de-facto standard in the Indian community, which matters for comparability
+          with the papers you are testing. Batch processing, handles DCBs and several receiver formats.
+          Needs Windows — plan for a VM, Wine, or a Python equivalent.</span>
+        </a>
+        <a href="https://academic.oup.com/gji/article/172/2/715/626740" target="_blank" rel="noopener">
+          <span class="t">Testing Alarm-Based Earthquake Predictions <span class="tag">Read First</span></span>
+          <span class="m">Zechar &amp; Jordan · Geophysical Journal International 172(2), 715 · 2008</span>
+          <span class="w">The reference for Molchan diagrams, probability gain and the area skill score.
+          Everything in section 04 comes from here. Read it before you compute a single anomaly — it will
+          change how you set the project up.</span>
+        </a>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0273117725014280" target="_blank" rel="noopener">
+          <span class="t">Two-stage Modelling of Ionospheric TEC for Earthquake Precursors: LSTM, GRU, RNN and Random-Forest Classification</span>
+          <span class="m">Advances in Space Research · 2025 · 2023 Türkiye Earthquakes</span>
+          <span class="w">The closest existing template for the ML half — and the clearest illustration of
+          what to add: read it for the architecture, then ask where its false-alarm accounting is.</span>
+        </a>
+        <a href="https://doi.org/10.1002/swe.20054" target="_blank" rel="noopener">
+          <span class="t">IONOLAB-TEC: Online, Automatic, Near-Real-Time GPS-TEC <span class="tag have">On Your Disk</span></span>
+          <span class="m">Sezen et al. · Space Weather · 2013 · DOI: 10.1002/swe.20054</span>
+          <span class="w">An independent, automated TEC estimation service and method. Useful as a third
+          processing chain when your own and the GIMs disagree.</span>
+        </a>
+        <a href="https://doi.org/10.3390/rs18071016" target="_blank" rel="noopener">
+          <span class="t">Seismo-ionospheric and Seismological Parameters for the 2025 Myanmar M<sub>w</sub> 7.7 Earthquake <span class="tag have">On Your Disk</span></span>
+          <span class="m">Colonna et al. · Remote Sensing · 2026 · DOI: 10.3390/rs18071016</span>
+          <span class="w">The most recent regional example, and the one that ties this project to the
+          b-value project — it uses both. Your scoring framework applies directly to its claims.</span>
+        </a>
+      </div>
+
+      <p>For GNSS data itself: the <strong>IGS</strong> network via CDDIS or the regional data centres,
+      and India's <strong>NCS</strong> GNSS holdings for stations inside the region — including the
+      multi-parametric observatory at Imphal that appears in your bibliography. Station density on the
+      Indian side is the binding constraint on the fine-resolution half of the study.</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p><b>What is verified here.</b> The scoring framework, the software links and the 2025 ML template
+      were checked against live sources in September 2026. The eight-paper test set comes from your own
+      bibliography and the "on your disk" markers were checked against your library. The method summaries
+      in section 01 are from titles and abstracts — read each paper before quoting what it claims.</p>
+      <p><b>What is judgement.</b> My expectation that the detectors will land near the diagonal is a
+      prediction, not a result, and the protocol is designed so that it can be refuted. The argument that
+      the equatorial anomaly crest is the dominant confounder in this region is standard ionospheric
+      physics, but its quantitative weight relative to any seismic signal is exactly what your study would
+      establish.</p>
+      <p><b>Companion.</b> This is rank 09 of the Indo-Burma method-gap analysis. Its sibling page covers
+      the rank 01 b-value re-analysis; the two share a target catalogue, a declustering decision and the
+      same statistical lesson about alarms chosen after the fact.</p>
+    </footer>
+
+  </main>
+</div>
+
+<!-- Back to top button -->
+<button id="back-to-top" aria-label="Back to top">↑ Top</button>
+
+<script>
+  // 1. Reading Progress Bar
+  const progressBar = document.getElementById('reading-progress');
+  const backToTopBtn = document.getElementById('back-to-top');
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (window.scrollY / totalHeight) * 100;
+    progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+
+    if (window.scrollY > 400) {
+      backToTopBtn.classList.add('visible');
+    } else {
+      backToTopBtn.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // 2. Active ScrollSpy for Left Rail
+  const navLinks = document.querySelectorAll('#doc-nav a');
+  const sections = Array.from(navLinks).map(link => {
+    const id = link.getAttribute('href').replace('#', '');
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(sec => observer.observe(sec));
+
+  // 3. Theme Toggle Switcher (Light / Dark / Auto)
+  const themeButtons = document.querySelectorAll('.theme-btn');
+  const root = document.documentElement;
+
+  function setTheme(theme) {
+    themeButtons.forEach(btn => {
+      if (btn.dataset.themeVal === theme) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    if (theme === 'auto') {
+      root.removeAttribute('data-theme');
+      localStorage.removeItem('tec-plan-theme');
+    } else {
+      root.setAttribute('data-theme', theme);
+      localStorage.setItem('tec-plan-theme', theme);
+    }
+  }
+
+  // Load saved theme if any
+  const savedTheme = localStorage.getItem('tec-plan-theme');
+  if (savedTheme === 'light' || savedTheme === 'dark') {
+    setTheme(savedTheme);
+  } else {
+    setTheme('auto');
+  }
+
+  themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTheme(btn.dataset.themeVal);
+    });
+  });
+</script>
+
+</body>
+</html>

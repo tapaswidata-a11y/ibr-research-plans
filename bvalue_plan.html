@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do the b-Value Anomalies Survive?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F4F2ED; --surface:#FFFFFF; --sunk:#EAE6DE; --grid:#E2DDD3;
+  --ink:#1E1B26; --ink2:#4B4657; --muted:#7C7688; --rule:#D9D3C9; --rule2:#C4BCB0;
+  --key:#4F3F8C; --key-soft:#E7E3F4;
+  --pass:#26705E; --pass-soft:#DCEDE7;
+  --fail:#A33526; --fail-soft:#F6E1DC;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#15131C; --surface:#1D1A26; --sunk:#191622; --grid:#241F30;
+    --ink:#EDEAF2; --ink2:#BEB8CC; --muted:#8B8399; --rule:#2E2839; --rule2:#3D3550;
+    --key:#A594E8; --key-soft:#241E3A;
+    --pass:#5FC0A5; --pass-soft:#16302A;
+    --fail:#E38273; --fail-soft:#321D19;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#15131C; --surface:#1D1A26; --sunk:#191622; --grid:#241F30;
+  --ink:#EDEAF2; --ink2:#BEB8CC; --muted:#8B8399; --rule:#2E2839; --rule2:#3D3550;
+  --key:#A594E8; --key-soft:#241E3A;
+  --pass:#5FC0A5; --pass-soft:#16302A;
+  --fail:#E38273; --fail-soft:#321D19;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);
+  font-family:Karla,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--key)}
+:focus-visible{outline:2px solid var(--key);outline-offset:3px;border-radius:2px}
+
+.page{max-width:1140px;margin:0 auto;padding:0 26px 88px;
+  display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 48px;align-items:start}
+
+.rail{position:sticky;top:0;padding:36px 0 28px}
+.brand{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:16px;line-height:1.2;
+  margin:0;color:var(--ink)}
+.brand span{display:block;font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:10.5px;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.rail nav{margin-top:24px;border-top:1px solid var(--rule);padding-top:4px;display:flex;flex-direction:column}
+.rail a{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:baseline;padding:9px 0;
+  text-decoration:none;border-bottom:1px solid var(--rule);font-size:13px;line-height:1.3;color:var(--ink2)}
+.rail a:hover{color:var(--key)}
+.rail a i{font-family:"IBM Plex Mono",monospace;font-style:normal;font-size:10.5px;color:var(--key);
+  font-variant-numeric:tabular-nums}
+
+header.top{padding:42px 0 0;max-width:70ch}
+.kicker{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--key);margin:0 0 15px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(33px,5vw,52px);
+  line-height:1.04;letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance;color:var(--ink)}
+.stand{font-size:18.5px;line-height:1.55;color:var(--ink2);margin:0;max-width:62ch}
+.stand em{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--ink)}
+
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin:32px 0 0}
+.spec{background:var(--surface);padding:14px 15px 13px}
+.spec b{display:block;font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:20px;
+  color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.15}
+.spec span{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);margin-top:6px;line-height:1.35;font-weight:600}
+
+section{margin:56px 0 0;max-width:70ch;scroll-margin-top:22px}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:26px;line-height:1.15;
+  margin:0 0 4px;color:var(--ink);text-wrap:balance;display:grid;grid-template-columns:auto 1fr;
+  gap:12px;align-items:baseline;letter-spacing:-.01em}
+h2 i{font-family:"IBM Plex Mono",monospace;font-style:normal;font-weight:400;font-size:13px;
+  color:var(--key);font-variant-numeric:tabular-nums}
+.dek{font-size:13.5px;color:var(--muted);margin:0 0 20px 36px;line-height:1.45;font-weight:500}
+section p{margin:0 0 14px}
+h3{font-family:Karla,sans-serif;font-weight:700;font-size:15px;letter-spacing:.01em;
+  margin:26px 0 9px;color:var(--ink)}
+strong{font-weight:700;color:var(--ink)}
+code,.v{font-family:"IBM Plex Mono",monospace;font-size:.87em;background:var(--sunk);
+  padding:1px 5px;border-radius:2px;color:var(--ink2)}
+.v{background:none;padding:0;color:var(--key);font-weight:500}
+ul{margin:0 0 14px;padding-left:20px}
+li{margin:0 0 7px}
+
+figure{margin:24px 0 22px}
+figure svg{display:block;width:100%;height:auto;background:var(--surface);border:1px solid var(--rule);
+  color:var(--ink2)}
+figcaption{font-size:12.5px;line-height:1.5;color:var(--muted);margin-top:10px;max-width:66ch}
+
+.tw{overflow-x:auto;margin:18px 0 20px;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:700;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+  background:var(--sunk);white-space:nowrap}
+td:first-child{font-weight:600;color:var(--ink)}
+tr:last-child td{border-bottom:0}
+td .yr{font-family:"IBM Plex Mono",monospace;color:var(--muted);font-size:12px}
+
+.note{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--key);
+  padding:15px 18px;margin:20px 0}
+.note.fail{border-left-color:var(--fail)}
+.note.pass{border-left-color:var(--pass)}
+.note h4{font-family:"IBM Plex Mono",monospace;font-weight:400;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--key);margin:0 0 8px}
+.note.fail h4{color:var(--fail)} .note.pass h4{color:var(--pass)}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+
+.res{display:flex;flex-direction:column;margin:14px 0 20px;border-top:1px solid var(--rule2)}
+.res a{display:block;text-decoration:none;padding:12px 0;border-bottom:1px solid var(--rule);color:inherit}
+.res a:hover{background:var(--sunk)}
+.res .t{font-weight:700;font-size:14.5px;line-height:1.35;color:var(--key);display:block}
+.res .m{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);display:block;margin-top:4px}
+.res .w{display:block;font-size:14.5px;line-height:1.5;color:var(--ink2);margin-top:6px;max-width:62ch}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+  padding:2px 6px;border-radius:2px;white-space:nowrap;background:var(--key-soft);color:var(--key);
+  margin-left:7px;vertical-align:1px;font-weight:400}
+.tag.have{background:var(--pass-soft);color:var(--pass)}
+
+ol.steps{counter-reset:s;list-style:none;margin:16px 0 0;padding:0}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:12px;padding:13px 0;
+  border-bottom:1px solid var(--rule);margin:0}
+ol.steps li::before{content:counter(s,decimal-leading-zero);font-family:"IBM Plex Mono",monospace;
+  font-size:11.5px;color:var(--key);padding-top:3px}
+ol.steps b{display:block;font-weight:700;color:var(--ink);margin-bottom:2px}
+
+footer{max-width:70ch;margin:60px 0 0;padding-top:20px;border-top:2px solid var(--ink);
+  font-size:13.5px;color:var(--muted)}
+footer p{margin:0 0 10px}
+footer b{color:var(--ink2)}
+
+@media (max-width:860px){
+  .page{grid-template-columns:1fr}
+  .rail{position:static;padding:28px 0 0}
+  .rail nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 18px}
+  header.top{padding-top:24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="page">
+
+<aside class="rail">
+  <p class="brand">b-Significant<span>Rank 01 · work plan</span></p>
+  <nav>
+    <a href="#claim"><i>01</i>The claim under test</a>
+    <a href="#why"><i>02</i>Why MLE can't answer</a>
+    <a href="#tools"><i>03</i>The three estimators</a>
+    <a href="#catalogue"><i>04</i>Building the catalogue</a>
+    <a href="#protocol"><i>05</i>The protocol</a>
+    <a href="#outcomes"><i>06</i>Every outcome publishes</a>
+    <a href="#fooled"><i>07</i>How to be fooled</a>
+    <a href="#kit"><i>08</i>Software and reading</a>
+  </nav>
+</aside>
+
+<main>
+
+<header class="top">
+  <p class="kicker">Rank 01 · start here · laptop-scale</p>
+  <h1>Do the b-value anomalies survive a significance test?</h1>
+  <p class="stand">Twenty-eight papers in your bibliography derive a Gutenberg–Richter <em>b</em> for
+  Northeast India. Every one of them estimates it by maximum curvature or plain MLE, and
+  <em>not one</em> tests whether the variation it reports is larger than random sampling would
+  produce anyway. Two estimators published since 2021 can settle that. The catalogues are already
+  public, the software is <code>pip install</code>, and the answer is a paper whichever way it falls.</p>
+</header>
+
+<div class="specs">
+  <div class="spec"><b>28</b><span>Papers in the test set</span></div>
+  <div class="spec"><b>22–28°N</b><span>Latitude window</span></div>
+  <div class="spec"><b>90–96°E</b><span>Longitude window</span></div>
+  <div class="spec"><b>1964–2025</b><span>Instrumental period</span></div>
+  <div class="spec"><b>0</b><span>New data required</span></div>
+</div>
+
+<section id="claim">
+  <h2><i>01</i>The claim under test</h2>
+  <p class="dek">Two families of assertion, and they fail differently</p>
+
+  <p>The regional b-value literature makes two distinct kinds of claim, and it is worth separating
+  them because they need different null hypotheses.</p>
+
+  <h3>Family A — spatial maps</h3>
+  <p>A grid of b estimated in overlapping cells or circles, then interpreted: low b here means high
+  stress, high b there means a fluid-rich or fractured volume, and the pattern correlates with
+  Bouguer gravity or with a fault trace. The unstated assumption is that the map's structure is
+  real rather than sampling noise.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Study</th><th>Where</th><th>What is asserted</th></tr></thead>
+      <tbody>
+        <tr><td>Khan <span class="yr">2005</span></td><td>Shillong Plateau</td><td>b mapped beneath the plateau; spatial structure interpreted tectonically</td></tr>
+        <tr><td>Khan &amp; Chakraborty <span class="yr">2007</span></td><td>Shillong Plateau</td><td>b correlates with Bouguer gravity anomaly</td></tr>
+        <tr><td>Bhattacharya et al. <span class="yr">2010</span></td><td>NE India</td><td>source zones from b, fractal dimension and tomography together</td></tr>
+        <tr><td>Khan et al. <span class="yr">2011</span></td><td>NE India</td><td>b as a proxy for ambient stress</td></tr>
+        <tr><td>Bora et al. <span class="yr">2018</span></td><td>Indo-Burma Ranges</td><td>b correlates with seismic moment and gravity</td></tr>
+        <tr><td>Bora et al. <span class="yr">2022</span></td><td>Indo-Burma Ranges</td><td>b distribution reflects structural heterogeneity and faulting style</td></tr>
+        <tr><td>Kumar et al. <span class="yr">2024</span></td><td>Meghalaya</td><td>spatial variation of seismicity parameters</td></tr>
+        <tr><td>Shahabuddin &amp; Mohanty <span class="yr">2025</span></td><td>Shillong Plateau</td><td>spatio-temporal mapping of b and related parameters</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Family B — precursory drops</h3>
+  <p>A b-value time series falls before a target earthquake, and the fall is read as a precursor.
+  This family is more exposed, because the interval before a mainshock is exactly where transient
+  catalogue incompleteness and event-selection freedom do their worst damage.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Study</th><th>Target event</th><th>What is asserted</th></tr></thead>
+      <tbody>
+        <tr><td>Sharma et al. <span class="yr">2013</span></td><td>Indo-Myanmar, incl. May 1995 M 6.3</td><td>low b before the events, plus a precursory swarm</td></tr>
+        <tr><td>Sarma et al. <span class="yr">2022</span></td><td>28 Apr 2021 Sonitpur M<sub>w</sub> 6.5</td><td>b reduction before the mainshock</td></tr>
+        <tr><td>Sharma &amp; Biswas <span class="yr">2022</span></td><td>26 Nov 2021 Mizoram</td><td>spatio-temporal b variation prior to the event</td></tr>
+        <tr><td>Sharma &amp; Biswas <span class="yr">2024</span></td><td>2021 Mizoram M<sub>w</sub> 6.1</td><td>b explicitly framed as a seismic precursor</td></tr>
+        <tr><td>Sharma et al. <span class="yr">2024</span></td><td>28 Apr 2021, Kopili region</td><td>b characterised before the earthquake</td></tr>
+        <tr><td>Phukan &amp; Mohanty <span class="yr">2023</span></td><td>NE India, medium term</td><td>b within a medium-term precursor analysis</td></tr>
+        <tr><td>Colonna et al. <span class="yr">2026</span></td><td>2025 Myanmar M<sub>w</sub> 7.7</td><td>b alongside ionospheric parameters in a coupling framework</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>That last one is the bridge to the TEC project: it puts b and TEC anomalies in a single
+  lithosphere–atmosphere–ionosphere argument, so whatever you conclude here constrains that too.</p>
+</section>
+
+<section id="why">
+  <h2><i>02</i>Why the standard method cannot answer the question</h2>
+  <p class="dek">Three failure modes, none of them the researchers' carelessness</p>
+
+  <p>The classical recipe — estimate M<sub>c</sub> by maximum curvature, fit b by Aki–Utsu maximum
+  likelihood above it, quote Shi &amp; Bolt uncertainty — is not wrong. It is simply unable to
+  distinguish a real b variation from a sampling fluctuation, for three reasons.</p>
+
+  <h3>The estimate inherits every error in M<sub>c</sub></h3>
+  <p>b and M<sub>c</sub> are entangled: set M<sub>c</sub> too low and the missing small events bias b
+  downwards; too high and you throw away the data that constrains it. Maximum curvature is known to
+  underestimate M<sub>c</sub>, and a map of b built on a map of M<sub>c</sub> inherits every error in
+  the second. When a b-map's structure resembles the network's station distribution, that is the
+  tell.</p>
+
+  <h3>The pre-mainshock window is transiently incomplete</h3>
+  <p>Short-term aftershock incompleteness is well known — small events are missed while the coda of
+  larger ones saturates the records. The same mechanism operates in any burst of activity, including
+  a foreshock swarm. Missing small events <em>lowers the apparent b</em>. A "precursory b drop" and
+  "a burst of activity that the network could not fully record" produce the same signature, and
+  plain MLE cannot separate them. This is the single most likely explanation for Family B.</p>
+
+  <figure>
+    <svg viewBox="0 0 720 330" role="img" aria-label="A frequency-magnitude distribution: the straight Gutenberg-Richter line, the roll-off below the magnitude of completeness, and a transiently incomplete catalogue whose deficit of small events bends the line and lowers the apparent b.">
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="currentColor"/>
+        </marker>
+      </defs>
+      <line x1="86" y1="40" x2="86" y2="256" stroke="currentColor" stroke-width="1.4"/>
+      <line x1="86" y1="256" x2="600" y2="256" stroke="currentColor" stroke-width="1.4"/>
+      <text x="70" y="46" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">log N</text>
+      <text x="600" y="278" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="currentColor">magnitude</text>
+
+      <line x1="150" y1="66" x2="560" y2="238" stroke="#7C6BC4" stroke-width="2.2"/>
+      <text x="470" y="168" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#7C6BC4">slope = −b</text>
+
+      <g fill="currentColor">
+        <circle cx="150" cy="66" r="3.4"/><circle cx="182" cy="79" r="3.4"/><circle cx="214" cy="93" r="3.4"/>
+        <circle cx="246" cy="106" r="3.4"/><circle cx="278" cy="119" r="3.4"/><circle cx="310" cy="132" r="3.4"/>
+        <circle cx="342" cy="146" r="3.4"/><circle cx="374" cy="159" r="3.4"/><circle cx="406" cy="172" r="3.4"/>
+        <circle cx="438" cy="186" r="3.4"/><circle cx="470" cy="199" r="3.4"/><circle cx="502" cy="212" r="3.4"/>
+      </g>
+
+      <g fill="none" stroke="#C9584A" stroke-width="2.2">
+        <path d="M 118 128 L 150 100 L 182 88 L 214 93"/>
+      </g>
+      <g fill="#C9584A">
+        <circle cx="118" cy="128" r="3.4"/><circle cx="150" cy="100" r="3.4"/><circle cx="182" cy="88" r="3.4"/>
+      </g>
+      <text x="104" y="152" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9584A">roll-off:</text>
+      <text x="104" y="167" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9584A">events missed</text>
+
+      <line x1="214" y1="40" x2="214" y2="264" stroke="currentColor" stroke-width="1.2" stroke-dasharray="5 4"/>
+      <text x="220" y="52" font-family="IBM Plex Mono, monospace" font-size="12" fill="currentColor">M𝑐</text>
+
+      <line x1="246" y1="106" x2="278" y2="119" stroke="#3E9E85" stroke-width="3"/>
+      <circle cx="246" cy="106" r="4.6" fill="none" stroke="#3E9E85" stroke-width="2"/>
+      <circle cx="278" cy="119" r="4.6" fill="none" stroke="#3E9E85" stroke-width="2"/>
+      <path d="M 262 96 L 262 74" stroke="#3E9E85" stroke-width="1.4" marker-end="url(#a1)" color="#3E9E85"/>
+      <text x="262" y="66" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#3E9E85">b-positive uses</text>
+      <text x="262" y="52" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11.5" fill="#3E9E85">differences, not counts</text>
+
+      <text x="86" y="304" font-family="Karla, sans-serif" font-size="13" fill="currentColor">Deplete the small events and the fitted line rotates — the apparent b falls without any change in physics.</text>
+    </svg>
+    <figcaption>The roll-off below M<sub>c</sub> is the visible part of the problem. The dangerous
+    part is invisible: during a burst of seismicity the whole curve is depleted at the small end, so a
+    fit above a fixed M<sub>c</sub> still rotates and b appears to drop. b-positive sidesteps this by
+    using the <em>differences</em> between successive magnitudes, which survive when the catalogue
+    momentarily loses its small events.</figcaption>
+  </figure>
+
+  <h3>Nobody counted the comparisons</h3>
+  <p>A b-map with 200 overlapping cells is 200 opportunities for a fluctuation to look like an
+  anomaly. At the 5% level you expect around ten "significant" cells from pure noise, and because the
+  cells overlap they are correlated, so the extremes clump into patches that look tectonic. No paper
+  in the list corrects for this. It is the central reason a formal test is needed rather than a
+  better colour scale.</p>
+</section>
+
+<section id="tools">
+  <h2><i>03</i>The three estimators you will use</h2>
+  <p class="dek">All implemented, tested and installable — you are not writing methods code</p>
+
+  <p><strong>b-positive</strong> (van der Elst, 2021) takes differences between the magnitudes of
+  successive events and keeps only the positive ones. Because differences of exponentially
+  distributed values follow a Laplace distribution, b follows from a maximum-likelihood fit to those
+  differences. The trick is that a transient loss of small events removes pairs roughly symmetrically
+  and leaves the positive-difference statistic almost intact — it is robust to exactly the
+  incompleteness that Family B is most likely measuring. It remains sensitive to <em>baseline</em>
+  network incompleteness, so it does not free you from M<sub>c</sub> entirely.</p>
+
+  <p><strong>b-significant</strong> (Mirwald, Mizrahi &amp; Wiemer, 2024) answers the question the
+  literature skipped. It is an autocorrelation-based test on a series of b estimates that rejects, or
+  fails to reject, the null hypothesis that the underlying b is constant. Instead of asking "is this
+  cell different from that cell", it asks whether the <em>whole field</em> varies more than chance
+  allows — which is the multiple-comparisons problem handled properly.</p>
+
+  <p><strong>Binned MLE with the Tinti–Mulargia correction</strong> stays in the workflow as the
+  reference method, because the point of the exercise is comparison. Magnitudes are reported in 0.1
+  bins and the correction matters at the second decimal — the same decimal at which several of the
+  papers claim a difference.</p>
+
+  <figure>
+    <svg viewBox="0 0 720 262" role="img" aria-label="A grid of b-value cells generated from a constant true b still shows high and low patches by chance; the b-significant test asks whether the whole field varies more than random sampling allows.">
+      <g transform="translate(40,52)">
+        <text x="0" y="-16" font-family="Karla, sans-serif" font-size="13" font-weight="700" fill="currentColor">Constant true b = 1.0, 30 samples per cell</text>
+        <g stroke="currentColor" stroke-width="1" stroke-opacity=".35">
+          <rect x="0" y="0" width="46" height="34" fill="#C9584A" fill-opacity=".30"/>
+          <rect x="46" y="0" width="46" height="34" fill="#7C6BC4" fill-opacity=".10"/>
+          <rect x="92" y="0" width="46" height="34" fill="#3E9E85" fill-opacity=".26"/>
+          <rect x="138" y="0" width="46" height="34" fill="#7C6BC4" fill-opacity=".08"/>
+          <rect x="184" y="0" width="46" height="34" fill="#C9584A" fill-opacity=".38"/>
+          <rect x="0" y="34" width="46" height="34" fill="#C9584A" fill-opacity=".42"/>
+          <rect x="46" y="34" width="46" height="34" fill="#C9584A" fill-opacity=".22"/>
+          <rect x="92" y="34" width="46" height="34" fill="#7C6BC4" fill-opacity=".10"/>
+          <rect x="138" y="34" width="46" height="34" fill="#3E9E85" fill-opacity=".34"/>
+          <rect x="184" y="34" width="46" height="34" fill="#3E9E85" fill-opacity=".20"/>
+          <rect x="0" y="68" width="46" height="34" fill="#7C6BC4" fill-opacity=".08"/>
+          <rect x="46" y="68" width="46" height="34" fill="#3E9E85" fill-opacity=".18"/>
+          <rect x="92" y="68" width="46" height="34" fill="#C9584A" fill-opacity=".26"/>
+          <rect x="138" y="68" width="46" height="34" fill="#3E9E85" fill-opacity=".40"/>
+          <rect x="184" y="68" width="46" height="34" fill="#7C6BC4" fill-opacity=".12"/>
+        </g>
+        <text x="0" y="122" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C9584A">low b "asperity"</text>
+        <text x="138" y="122" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3E9E85">high b "fluids"</text>
+        <text x="0" y="146" font-family="Karla, sans-serif" font-size="12.5" fill="currentColor">Both patches are noise. Nothing varies.</text>
+      </g>
+
+      <line x1="300" y1="70" x2="352" y2="70" stroke="currentColor" stroke-width="1.5" marker-end="url(#a2)"/>
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 10,5 0,9" fill="currentColor"/>
+        </marker>
+      </defs>
+      <text x="326" y="60" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="currentColor">test</text>
+
+      <g transform="translate(372,52)">
+        <text x="0" y="-16" font-family="Karla, sans-serif" font-size="13" font-weight="700" fill="currentColor">What b-significant asks</text>
+        <rect x="0" y="0" width="300" height="102" fill="none" stroke="currentColor" stroke-width="1" stroke-opacity=".35"/>
+        <text x="16" y="26" font-family="Karla, sans-serif" font-size="13" fill="currentColor">Is the variation across the whole</text>
+        <text x="16" y="46" font-family="Karla, sans-serif" font-size="13" fill="currentColor">field larger than sampling alone</text>
+        <text x="16" y="66" font-family="Karla, sans-serif" font-size="13" fill="currentColor">would produce?</text>
+        <text x="16" y="90" font-family="IBM Plex Mono, monospace" font-size="12" fill="#7C6BC4">H₀ : b is constant</text>
+        <text x="0" y="146" font-family="Karla, sans-serif" font-size="12.5" fill="currentColor">One test on the field, not 200 tests on cells.</text>
+      </g>
+    </svg>
+    <figcaption>Sampling noise alone produces spatially clustered high and low patches that read as
+    structure — and with overlapping cells the clustering is stronger still, because neighbouring
+    estimates share events. Testing each cell against a global mean is the wrong test; testing whether
+    the field varies at all is the right one.</figcaption>
+  </figure>
+</section>
+
+<section id="catalogue">
+  <h2><i>04</i>Building the catalogue</h2>
+  <p class="dek">Two homogenised regional catalogues already exist — and they are in your bibliography</p>
+
+  <p>Do not homogenise from scratch. Two published catalogues have done the magnitude conversion work
+  for this exact region, and using them makes your result directly comparable to the papers you are
+  testing:</p>
+
+  <div class="res">
+    <a href="https://doi.org/10.1785/0220240217" target="_blank" rel="noopener">
+      <span class="t">An Updated and Unified Complete Earthquake Catalog of the Shillong Plateau and Adjoining Region<span class="tag have">on your disk</span></span>
+      <span class="m">Shahabuddin &amp; Mohanty · Seismological Research Letters · 2025 · 10.1785/0220240217</span>
+      <span class="w">The most recent unified catalogue for the plateau. Its authors also published the
+      2025 spatio-temporal b mapping you are testing — so using their catalogue removes "different data"
+      as an explanation for any disagreement. That is a deliberate and defensible choice.</span>
+    </a>
+    <a href="https://doi.org/10.1080/19475705.2020.1863269" target="_blank" rel="noopener">
+      <span class="t">A unified moment magnitude earthquake catalog for Northeast India</span>
+      <span class="m">Das &amp; Meneses · Geomatics, Natural Hazards and Risk · 2021</span>
+      <span class="w">Wider regional coverage in M<sub>w</sub>, from the group that also published the
+      2012 homogenisation methodology. Use it as the second, independent catalogue — agreement between
+      the two is itself a result.</span>
+    </a>
+  </div>
+
+  <p>Add the international bulletins for completeness at the large end and for the period since those
+  catalogues close: the <strong>ISC Bulletin</strong> and <strong>ISC-GEM</strong> for reviewed
+  global data, <strong>USGS ComCat</strong> for rapid coverage, and <strong>India's NCS</strong> for
+  the densest small-event coverage on the Indian side. SeismoStats can pull FDSN web-service
+  catalogues directly, which removes a day of scripting.</p>
+
+  <div class="note fail">
+    <h4>The decision that changes your answer</h4>
+    <p><strong>Declustering.</strong> Removing aftershocks changes b, and every choice —
+    Gardner–Knopoff windows, Reasenberg, nearest-neighbour, ETAS-based stochastic declustering —
+    changes it differently. Do not pick one. Run the entire analysis under at least three declustering
+    choices plus the full catalogue, and report the spread. If a claimed anomaly appears under one
+    declustering and not the others, you have found the actual result.</p>
+  </div>
+</section>
+
+<section id="protocol">
+  <h2><i>05</i>The protocol</h2>
+  <p class="dek">Fix it in writing before you look at the answers — that is what makes it a test</p>
+
+  <p>The value of this study is its discipline. If you tune the cell radius until an anomaly appears
+  or disappears, you have reproduced the problem you set out to diagnose. Write the analysis plan
+  down, timestamp it in the repository, and follow it.</p>
+
+  <ol class="steps">
+    <li><b>Define the target list first.</b> Extract every specific quantitative claim from the
+    papers in section 01 — cell radius, time window, catalogue, magnitude range, the b values quoted
+    and the difference asserted. This list is fixed before any computation. It is also, by itself, a
+    useful table for the paper.</li>
+    <li><b>Assemble two catalogues.</b> The Shillong-region unified catalogue and the NE India
+    M<sub>w</sub> catalogue, each extended with ISC/ComCat where they end. Record versions and access
+    dates; catalogues are revised.</li>
+    <li><b>Characterise completeness properly.</b> M<sub>c</sub> by maximum curvature, goodness-of-fit
+    and b-value-stability, with bootstrap uncertainty — three methods, because the disagreement
+    between them is a quantity you need to report.</li>
+    <li><b>Reproduce each claim with the original method.</b> Same cells, same windows, plain MLE.
+    You must be able to recover their numbers before you are entitled to dispute them. Where you
+    cannot reproduce a number, that is a finding to report neutrally.</li>
+    <li><b>Re-estimate with b-positive.</b> Same geometry, robust estimator. The difference between
+    the two estimates, cell by cell, is your first figure.</li>
+    <li><b>Run b-significant on the field.</b> Spatial and temporal. This is the test the literature
+    is missing, and its output — reject or fail to reject a constant b — is the paper's headline.</li>
+    <li><b>Bootstrap the precursor claims.</b> For each Family B event, compute the b time series,
+    then re-compute it thousands of times on catalogues with magnitudes randomly reshuffled in time.
+    How often does a drop as large as the claimed one appear by chance? That single number decides
+    each case.</li>
+    <li><b>Repeat everything under each declustering choice</b> and publish the spread, not the
+    most convenient run.</li>
+    <li><b>Release the code and the derived catalogues.</b> A methodological correction that cannot
+    be re-run is just another opinion in the literature.</li>
+  </ol>
+</section>
+
+<section id="outcomes">
+  <h2><i>06</i>Every outcome is publishable</h2>
+  <p class="dek">Which is why this is rank 01 rather than an interesting idea</p>
+
+  <div class="note fail">
+    <h4>Outcome A — most of the anomalies fail</h4>
+    <p>The likeliest result, on the evidence from other regions. You publish a regional methodological
+    correction: which claims survive, which do not, and the corrected b field with honest uncertainty.
+    Uncomfortable to write, straightforward to defend, and it constrains every PSHA in the region —
+    because b feeds directly into recurrence.</p>
+  </div>
+
+  <div class="note pass">
+    <h4>Outcome B — some survive</h4>
+    <p>Better. You have then established, with a formal test, that specific structures in the
+    Indo-Burma Ranges carry a genuinely different b. That is a stronger statement than any of the
+    original papers made, and it is the foundation for a physical interpretation rather than a
+    correlation.</p>
+  </div>
+
+  <div class="note">
+    <h4>Outcome C — the catalogue cannot decide</h4>
+    <p>Also a result, and arguably the most useful one: it quantifies how much better the regional
+    catalogue must be before b-mapping is meaningful at all, which is a direct, costed argument for
+    the deep-learning catalogue at rank 02. The two projects then join into one narrative.</p>
+  </div>
+
+  <p>Venue: this is a <em>Seismological Research Letters</em> short paper or a
+  <em>Journal of Seismology</em> article. If a single claim is the focus, SRL and several journals
+  take formal Comments — but a regional re-analysis covering the whole set is a better paper and a
+  less adversarial one.</p>
+</section>
+
+<section id="fooled">
+  <h2><i>07</i>How to be fooled</h2>
+  <p class="dek">The traps in this specific analysis, in the order you will meet them</p>
+  <ul>
+    <li><strong>Mixed magnitude types.</strong> m<sub>b</sub>, M<sub>L</sub> and M<sub>w</sub> in one
+    catalogue produce a kinked FMD and a meaningless b. This is the single most common defect in
+    regional b studies — verify the conversion, don't assume it.</li>
+    <li><strong>Magnitude rounding.</strong> Reported magnitudes cluster on 0.1 and, in older
+    bulletins, on 0.5. Without the binning correction b is biased at the second decimal, which is
+    where several disputed differences live.</li>
+    <li><strong>Overlapping windows.</strong> Adjacent cells share events, so their b estimates are
+    correlated and the map looks smoother and more structured than the data warrant. Report the
+    effective number of independent samples, not the cell count.</li>
+    <li><strong>Choosing the event after seeing the anomaly.</strong> Family B papers select a target
+    earthquake and look backwards. With enough M ≥ 6 events in a seismically active region, some will
+    be preceded by a b drop by chance. The prospective framing — "how often does this precede an
+    event, and how often does it occur with nothing following?" — is the only honest one, and it is
+    the same alarm-scoring logic the TEC project needs.</li>
+    <li><strong>Edge effects.</strong> Cells at the catalogue boundary and at the network's margin
+    have both fewer events and higher M<sub>c</sub>. Low-b rims around study areas are usually the
+    study area's edge, not a structure.</li>
+    <li><strong>Reading tectonics into σ.</strong> With 50 events, the standard error on b is roughly
+    ±0.14 — larger than most of the differences interpreted in the literature. Plot the uncertainty
+    on the same axis as the variation before interpreting anything.</li>
+  </ul>
+</section>
+
+<section id="kit">
+  <h2><i>08</i>Software and reading</h2>
+  <p class="dek">Everything below exists and is maintained — no methods code to write</p>
+
+  <div class="res">
+    <a href="https://seismostats.readthedocs.io/latest/user/estimate_b.html" target="_blank" rel="noopener">
+      <span class="t">SeismoStats — b estimation<span class="tag">the toolchain</span></span>
+      <span class="m">Python · pip install seismostats · seismostats.readthedocs.io</span>
+      <span class="w">Catalogue download and manipulation, M<sub>c</sub> estimators, classical and
+      b-positive b estimation with proper binning. Developed at ETH/SED by the group that wrote the
+      significance test — so the estimator and the test are consistent by construction.</span>
+    </a>
+    <a href="https://seismostats.readthedocs.io/v1.0.1/user/b_significant.html" target="_blank" rel="noopener">
+      <span class="t">SeismoStats — b-significant<span class="tag">the headline test</span></span>
+      <span class="m">API: <code>analysis.b_significant_1D</code></span>
+      <span class="w">The Mirwald et al. test as a function call, for temporal and spatial series.
+      This is the single most important line of code in the project.</span>
+    </a>
+    <a href="https://arxiv.org/html/2511.04521v1" target="_blank" rel="noopener">
+      <span class="t">SeismoStats: A Python Package for Statistical Seismology</span>
+      <span class="m">arXiv preprint · 2025</span>
+      <span class="w">The package paper — read it for the design decisions and the worked examples,
+      and cite it.</span>
+    </a>
+    <a href="https://pubs.geoscienceworld.org/ssa/srl/article-abstract/95/6/3343/648709/How-to-b-Significant-When-Analyzing-b-Value" target="_blank" rel="noopener">
+      <span class="t">How to b-Significant When Analyzing b-Value Variations<span class="tag">read first</span></span>
+      <span class="m">Mirwald, Mizrahi &amp; Wiemer · Seismological Research Letters 95(6), 3343–3359 · 2024</span>
+      <span class="w">The method paper and the argument for it. Read this before writing a line of
+      code; the whole project is an application of it to your region.</span>
+    </a>
+    <a href="https://doi.org/10.1029/2020JB021027" target="_blank" rel="noopener">
+      <span class="t">b-positive: a robust estimator for transiently incomplete catalogs<span class="tag have">in your library</span></span>
+      <span class="m">van der Elst · J. Geophys. Res. Solid Earth · 2021 · 10.1029/2020JB021027</span>
+      <span class="w">Where the magnitude-difference estimator comes from, and why it survives the
+      incompleteness that makes precursory b drops look real.</span>
+    </a>
+    <a href="https://www.researchgate.net/publication/339629938_How_to_be_fooled_searching_for_significant_variations_of_the_b-value" target="_blank" rel="noopener">
+      <span class="t">How to be fooled searching for significant variations of the b-value</span>
+      <span class="m">Marzocchi and co-authors · c. 2020 — verify the venue before citing</span>
+      <span class="w">The sceptical companion piece: the specific ways b-variation studies mislead
+      themselves. I have not verified its bibliographic details, so confirm them at source.</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p><b>What is verified here.</b> The estimators, the significance test and the SeismoStats API were
+  checked against live documentation in September 2026. The 28-paper test set and the two catalogue
+  papers come from your own bibliography, and the "on your disk" markers were checked against your
+  library. The specific claims summarised in the section 01 tables are my reading of titles and
+  abstracts — re-read each paper before quoting what it asserts.</p>
+  <p><b>What is judgement.</b> That Outcome A is the likeliest, that most Family B claims reflect
+  transient incompleteness, and the ±0.14 figure for 50 events are my expectations, not results. The
+  point of the protocol in section 05 is that it can prove me wrong.</p>
+  <p><b>Companion.</b> This is rank 01 of the Indo-Burma method-gap analysis. Its sibling page covers
+  the ionospheric TEC project, rank 09 — and the two meet in Colonna et al. (2026), which uses b and
+  TEC together for the 2025 Myanmar earthquake.</p>
+</footer>
+
+</main>
+</div>
+
+</body>
+</html>

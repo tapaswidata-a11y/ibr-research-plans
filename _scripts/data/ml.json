@@ -1,0 +1,101 @@
+[
+ {
+  "citekey": "ml_2023gl105159",
+  "cr_title": "New Insights Into Active Faults Revealed by a Deep\u2010Learning\u2010Based Earthquake Catalog in Central Myanmar",
+  "journal": "Geophysical Research Letters",
+  "cr_year": 2024,
+  "doi": "10.1029/2023gl105159",
+  "cr_author": "Yang",
+  "authors": [
+   "Yang, Shun",
+   "Xiao, Zhuowei",
+   "Wei, Shengji",
+   "He, Yumei",
+   "Mon, Chit Thet",
+   "Hou, Guangbing",
+   "Thant, Myo",
+   "Sein, Kyaing",
+   "Jiang, Mingming"
+  ]
+ },
+ {
+  "citekey": "ml_s41598-026-455",
+  "cr_title": "Spatially validated assessment of seismic hazard-prone environments in Myanmar using multi-source data and interpretable machine learning",
+  "journal": "Scientific Reports",
+  "cr_year": 2026,
+  "doi": "10.1038/s41598-026-45557-3",
+  "cr_author": "Ning",
+  "authors": [
+   "Ning, Junjie",
+   "Sun, Zhenhui",
+   "Wang, Yufan",
+   "Xu, Ying",
+   "Zhang, Chen"
+  ]
+ },
+ {
+  "citekey": "ml_j.gsf.2020.11.",
+  "cr_title": "Earthquake risk assessment in NE India using deep learning and geospatial analysis",
+  "journal": "Geoscience Frontiers",
+  "cr_year": 2021,
+  "doi": "10.1016/j.gsf.2020.11.007",
+  "cr_author": "Jena",
+  "authors": [
+   "Jena, Ratiranjan",
+   "Pradhan, Biswajeet",
+   "Naik, Sambit Prasanajit",
+   "Alamri, Abdullah M."
+  ]
+ },
+ {
+  "citekey": "ml_nhrefo.nheng-2",
+  "cr_title": "Machine Learning Models for Seismic Energy Forecasting and Spatial Correlation Analysis for the Himalayan and Indo-Burmese Regions",
+  "journal": "Natural Hazards Review",
+  "cr_year": 2026,
+  "doi": "10.1061/nhrefo.nheng-2647",
+  "cr_author": "Yarramsetty",
+  "authors": [
+   "Yarramsetty, Bala Balaji",
+   "Baladhandapani, Kavitha"
+  ]
+ },
+ {
+  "citekey": "ml_s10950-025-103",
+  "cr_title": "Development of ground motion models using supervised learning: application to North and Northeast India",
+  "journal": "Journal of Seismology",
+  "cr_year": 2026,
+  "doi": "10.1007/s10950-025-10354-4",
+  "cr_author": "Sankar",
+  "authors": [
+   "Sankar, Ajesh",
+   "Kolathayar, Sreevalsa"
+  ]
+ },
+ {
+  "citekey": "ml_ag-7353",
+  "cr_title": "Artificial neural networks (ANN) and stochastic techniques to estimate earthquake occurrences in Northeast region of India",
+  "journal": "Annals of Geophysics",
+  "cr_year": 2017,
+  "doi": "10.4401/ag-7353",
+  "cr_author": "Zarola",
+  "authors": [
+   "Zarola, Amit",
+   "Sil, Arjun"
+  ]
+ },
+ {
+  "citekey": "ml_s20164369",
+  "cr_title": "Earthquake Probability Assessment for the Indian Subcontinent Using Deep Learning",
+  "journal": "Sensors",
+  "cr_year": 2020,
+  "doi": "10.3390/s20164369",
+  "cr_author": "Jena",
+  "authors": [
+   "Jena, Ratiranjan",
+   "Pradhan, Biswajeet",
+   "Al-Amri, Abdullah",
+   "Lee, Chang Wook",
+   "Park, Hyuck-jin"
+  ]
+ }
+]

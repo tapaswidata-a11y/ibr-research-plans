@@ -1,0 +1,60 @@
+58 wider-scope entries removed as off-topic
+
+1987  Geology                                   Continental transform tectonics: Great Slave Lake shear zone (ca. 1.9 Ga), northwest Canada
+2000  Geophysical Research Letters              A case study on the biomass burning in southeast Asia and enhancement of tropospheric ozone over Hong Kong
+2002  Annals of Glaciology                      Indian monsoon variability in the Himalaya since AD 1800
+2003  Journal of Geophysical Research Atmosphe  Characteristics of biomass burning emission sources, transport, and chemical speciation in enhanced springtime tropospheric ozone profile over Hong Kong
+2004  Journal of Geophysical Research Atmosphe  Vertical profile and origin of wintertime tropospheric ozone over China during the PEACE‐A period
+2004  Geophysical Research Letters              Prediction of tropical cyclone genesis using a vortex merger index
+2005  -                                         Genesis of arsenic contamination of groundwater in alluvial Gangetic aquifer in India
+2005  -                                         Mineralogical characteristics of the Meghna floodplain sediments and arsenic enrichment in groundwater
+2005  The Physical Geography of Southeast Asia  Rivers of Southeast Asia
+2005  The Physical Geography of Southeast Asia  The Climate of Southeast Asia
+2006  Khulna University Studies                 PARTICLE-BOUND NUTRIENTS IN AND AROUND THE SUNDARBANS, SOUTHWEST BANGLADESH
+2008  Geochemical Transactions                  Comparison of dissolved and particulate arsenic distributions in shallow aquifers of Chakdaha, India, and Araihazar, Bangladesh
+2008  Water Resources Research                  Impact of local recharge on arsenic concentrations in shallow aquifers inferred from the electromagnetic conductivity of soils in Araihazar, Bangladesh
+2008  Toxicology Mechanisms and Methods         Co-Administration of Monoisoamyl Dimercaptosuccinic Acid andMoringa OleiferaSeed Powder Protects Arsenic-Induced Oxidative Stress and Metal Distribution in Mice
+2009  Geophysical Research Letters              Asian summer monsoon simulated by a global cloud‐system‐resolving model: Diurnal to intra‐seasonal variability
+2009  Journal of Geophysical Research Atmosphe  Spatial distribution and diurnal variation of cumuliform clouds during Indian Summer Monsoon
+2009  Hydrology and earth system sciences       Understanding wetland sub-surface hydrology using geologic and isotopic signatures
+2009  Archives of Agronomy and Soil Science     Sulphate sorption/desorption behavior vis-à-vis thermodynamic characteristics of some sulphur deficient soils of West Bengal
+2011  Geophysical Research Letters              Perennial ponds are not an important source of water or dissolved organic matter to groundwaters with high arsenic concentrations in West Bengal, India
+2012  -                                         Biogeochemical relationships of arsenic in the Haor Basin of Bangladesh
+2013  JURNAL PESISIR DAN LAUT TROPIS            WOUND HEALING AND MANTLE REGENERATION IN Atrina vexillum (BIVALVIA : PINNIDAE) WITH ANESTHESIA 1-PHENOXY-2-PROPANOL
+2014  Geomicrobiology Journal                   Isolation and Characterization of Arsenic-Resistant Bacteria from Contaminated Water-Bodies in West Bengal, India
+2014  Geological Society of India eBooks        River Systems and Water Resources of West Bengal: A Review
+2014  Current Science                           Permissible Soil Loss Limits for Different Physiographic Regions of West Bengal
+2015  Journal of Hydrology Regional Studies     Groundwater systems of the Indian Sub-Continent
+2015  Journal of Hydrology Regional Studies     High arsenic (As) concentrations in the shallow groundwaters of southern Louisiana: Evidence of microbial controls on As mobilization from sediments
+2015  Remote Sensing Letters                    On the prediction of storm surges during super cyclone Phailin using a deterministic ensemble Kalman filter
+2015  Remote Sensing Letters                    Retrieving significant wave height in the Indian Ocean near Visakhapatnam using Jason-2 altimeter data
+2016  Journal of the Atmospheric Sciences       Precipitation-Top Heights of Heavy Orographic Rainfall in the Asian Monsoon Region
+2016  -                                         4 Arsenic in drinking water and the Agenda 2030 Sustainable Development Goals
+2017  Hydrogeology Journal                      Hydrogeological typologies of the Indo-Gangetic basin alluvial aquifer, South Asia
+2018  Environmental Science & Technology        Investigating Fluorescent Organic-Matter Composition as a Key Predictor for Arsenic Mobility in Groundwater Aquifers
+2018  International Journal of Climatology      Assessment of rainfall bias correction techniques for improved hydrological simulation
+2020  Hydrogeology Journal                      Groundwater recharge processes in an Asian mega-delta: hydrometric evidence from Bangladesh
+2020  ISH Journal of Hydraulic Engineering      Evaluation of track length, residence time and translational speed for tropical cyclones in the North Indian ocean
+2020  Digital Commons - USU (Utah State Univer  The Role of Carbonate Minerals in Arsenic Mobility in a Shallow Aquifer Influenced by a Seasonally Fluctuating Groundwater Table
+2020  Scientific Bulletin                       Bangladesh - the deltaic floodplain explores the role of its mountainous landscape
+2021  The Dhaka University Journal of Earth an  Climatology of Frequency, Life Period, Energy and Speed for Tropical Disturbances and Cyclones over the Bay of Bengal
+2021  Environment and Natural Resources Journa  Glass Production from River Silica of Bangladesh: Converting Waste to Economically Potential Natural Resource
+2021  One Earth                                 Nature-based solutions for flood risk reduction: A probabilistic modeling framework
+2022  International Journal of Humanities Soci  Tracing and Deciphering Mrohaung, Rohang and Rosang: The Toponyms Associated with the Ethnonym Rohingya
+2022  International Journal of Environmental &  Tube well platform colour, as a proxy for identification of arsenic contaminated wells - case study from, alluvial aquifers of eastern India
+2022  Zenodo (CERN European Organization for N  Role of India in Rohingya Crisis
+2022  Scientific Reports                        Rising surface pressure over Tibetan Plateau strengthens indian summer monsoon rainfall over northwestern India
+2023  Indian Science Cruiser                    Impact of Climate Change - Evidence from Archaeological Structures of West Bengal
+2023  Policy Press eBooks                       Foreign Aid and the (De)politicization of Civil Society Assistance
+2024  Institut de recherche sur l’Asie du Sud-  Birmanie
+2024  Jurnal Intervensi Sosial                  TRADISI PELESTARIAN TRADISI BARATAN KALINYAMATAN JEPARA PASCA PANDEMI
+2025  Proceedings of the National Academy of S  Profile of Jean-Philippe Avouac
+2025  Prācyavidyā patrikā.                      The Decline of Buddhism and the Revival of Theravada Buddhism in Bangladesh: A Study
+2025  Geophysical Research Letters              Plausibility Criteria for GRACE‐Derived Groundwater Storage Changes From Aquifers Globally
+2025  Applied Computing and Geosciences         Stacking modeling with genetic algorithm-based hyperparameter tuning for uniaxial compressive strength prediction
+2025  Frontiers in Environmental Science        Unravelling the dynamical characteristics of tropical cyclones: Amphan and Nisarga using ERA5 reanalysis
+2025  Proceedings of International Structural   CHARACTERIZATION OF BRICKS FOR RECYCLABILITY: STRENGTH, POROSITY, AND GEOLOGICAL INFLUENCES
+2025  Discover Global Society                   The Rohingya crisis in Bangladesh: challenges and prospects
+2026  -                                         Diplommatina animula Godwin-Austen 1892
+2026  E-journal of Portuguese history           ‘[We] Cannot Exist Properly without Slaves’: New Insights into Early Dutch Slave Trade in Asia from the ESTA Database, 1621–1660
+2026  Zenodo (CERN European Organization for N  Spatio-temporal Delineation of Erosion-Accretion Dynamics of the Bhagirathi-Hooghly River at Nabadwip-Tribeni Stretch under Changed Climate Scenario
