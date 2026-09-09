@@ -97,7 +97,12 @@ nfoc=sum(1 for r in d if r.get('scope')=='focused')
 nctx=len(d)-nfoc
 ndoi=sum(1 for r in d if r['doi'])
 
-HTML=f'''<title>Indo-Burma Ranges Bibliography</title>
+HTML=f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indo-Burma Ranges Bibliography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -316,6 +321,8 @@ footer b{{color:var(--ink2);font-weight:600}}
 }}
 @media (prefers-reduced-motion:reduce){{*{{transition:none!important}}}}
 </style>
+</head>
+<body>
 
 <div class="wrap">
 <header class="top">
@@ -529,6 +536,9 @@ footer b{{color:var(--ink2);font-weight:600}}
     }});
   }});
 }})();
-</script>'''
+</script>
+</body>
+</html>
+'''
 open(_os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),'ibr.html'),'w').write(HTML)
 print('wrote',len(HTML),'bytes;',len(d),'entries')
