@@ -12,13 +12,15 @@ Tapaswi (saikiatapaswi2025@gmail.com), whose PhD work is on IBR seismology.
 
 | What | Where |
 |---|---|
-| **Live page** (filterable, published) | https://claude.ai/code/artifact/9591e5b7-c1ea-45f6-9952-343b34736636 |
-| Bibliography, CSV | `~/all_papers/IBR/IBR_bibliography.csv` |
+| **Live Portal (All Pages & Datasets)** | https://tapaswidata-a11y.github.io/ibr-research-plans/ |
+| **Interactive Bibliography Explorer** | https://tapaswidata-a11y.github.io/ibr-research-plans/ibr.html |
+| **b-value work plan** (rank 01) | https://tapaswidata-a11y.github.io/ibr-research-plans/bvalue_plan.html |
+| **TEC work plan** (rank 09) | https://tapaswidata-a11y.github.io/ibr-research-plans/tec_plan.html |
+| **DAS field guide** (gap 14) | https://tapaswidata-a11y.github.io/ibr-research-plans/das_primer.html |
+| Bibliography, CSV | `~/all_papers/IBR/IBR_bibliography.csv` · [CSV Download](https://tapaswidata-a11y.github.io/ibr-research-plans/IBR_bibliography.csv) |
 | Bibliography, Markdown | `~/all_papers/IBR/IBR_bibliography.md` |
 | Method-gap analysis | `~/all_papers/IBR/IBR_method_gaps.md` |
-| **DAS field guide** (gap 14) | https://claude.ai/code/artifact/f76730b0-c140-4ace-a3dc-73e4099eb024 · `das_primer.html` |
-| **b-value work plan** (rank 01) | https://claude.ai/code/artifact/e925b9ce-6b56-42fa-a68b-ea0efcf4654a · `bvalue_plan.html` |
-| **TEC work plan** (rank 09) | https://claude.ai/code/artifact/0d91aea3-024f-4e68-820c-cd23c17b73e3 · `tec_plan.html` |
+| GitHub Repository | https://github.com/tapaswidata-a11y/ibr-research-plans |
 
 Each artifact redeploys to the **same URL** by republishing the same file path, or from a new
 session by passing that URL as `url` to the Artifact tool. Read it first before republishing.
